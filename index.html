@@ -682,20 +682,248 @@
 
         <!-- COMPLETE CONJUGATION TAB -->
         <div class="tab-content" id="complete">
-          <div style="text-align: center; padding: 20px">
-            <h3>Complete Conjugation Practice</h3>
-            <p style="color: #6c757d; margin-bottom: 20px">
+          <div style="padding: 20px">
+            <h3 style="text-align: center">Complete Conjugation Practice</h3>
+            <p style="color: #6c757d; margin-bottom: 20px; text-align: center">
               Fill in all conjugations for a single verb
             </p>
 
-            <div id="completeVerbDisplay" style="margin-bottom: 20px">
-              <div style="font-size: 1.5em; font-weight: 600; color: #495057">
-                Click "New Verb" to start
+            <!-- Verb Selection Mode -->
+            <div
+              style="
+                background: #f8f9fa;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                border: 1px solid #dee2e6;
+              "
+            >
+              <div style="margin-bottom: 15px">
+                <label
+                  style="
+                    font-weight: 600;
+                    color: #495057;
+                    display: block;
+                    margin-bottom: 10px;
+                  "
+                  >Verb Selection Mode:</label
+                >
+                <div style="display: flex; gap: 20px">
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      cursor: pointer;
+                    "
+                  >
+                    <input
+                      type="radio"
+                      name="verbMode"
+                      value="random"
+                      checked
+                      onchange="handleVerbModeChange()"
+                    />
+                    <span>Random Verb</span>
+                  </label>
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      cursor: pointer;
+                    "
+                  >
+                    <input
+                      type="radio"
+                      name="verbMode"
+                      value="specific"
+                      onchange="handleVerbModeChange()"
+                    />
+                    <span>Specific Verb</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Random Verb Controls -->
+              <div id="randomVerbControls" style="display: block">
+                <div
+                  style="
+                    display: flex;
+                    gap: 15px;
+                    margin-bottom: 15px;
+                    flex-wrap: wrap;
+                    align-items: end;
+                  "
+                >
+                  <div style="flex: 1; min-width: 200px">
+                    <label
+                      style="
+                        font-weight: 600;
+                        color: #495057;
+                        display: block;
+                        margin-bottom: 5px;
+                      "
+                      >Difficulty Range:</label
+                    >
+                    <div style="display: flex; align-items: center; gap: 8px">
+                      <select
+                        id="completeVerbLevelStart"
+                        onchange="updateCompleteSettings()"
+                        style="
+                          flex: 1;
+                          padding: 8px 12px;
+                          border: 1px solid #dee2e6;
+                          border-radius: 5px;
+                          font-size: 1em;
+                        "
+                      >
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                      </select>
+                      <span>to</span>
+                      <select
+                        id="completeVerbLevelEnd"
+                        onchange="updateCompleteSettings()"
+                        style="
+                          flex: 1;
+                          padding: 8px 12px;
+                          border: 1px solid #dee2e6;
+                          border-radius: 5px;
+                          font-size: 1em;
+                        "
+                      >
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced" selected>Advanced</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style="flex: 1; min-width: 200px">
+                    <label
+                      style="
+                        font-weight: 600;
+                        color: #495057;
+                        display: block;
+                        margin-bottom: 5px;
+                      "
+                      >Regularity:</label
+                    >
+                    <select
+                      id="completeRegularityFilter"
+                      onchange="updateCompleteSettings()"
+                      style="
+                        width: 100%;
+                        padding: 8px 12px;
+                        border: 1px solid #dee2e6;
+                        border-radius: 5px;
+                        font-size: 1em;
+                      "
+                    >
+                      <option value="all">All Verbs</option>
+                      <option value="regular">Regular Only</option>
+                      <option value="regular_mostly">
+                        Regular + Mostly Regular
+                      </option>
+                      <option value="mostly_regular">
+                        Mostly Regular Only
+                      </option>
+                      <option value="irregular">Irregular Only</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Specific Verb Controls -->
+              <div id="specificVerbControls" style="display: none">
+                <div style="margin-bottom: 15px">
+                  <label
+                    style="
+                      font-weight: 600;
+                      color: #495057;
+                      display: block;
+                      margin-bottom: 5px;
+                    "
+                    >Select Verb:</label
+                  >
+                  <select
+                    id="specificVerbSelect"
+                    style="
+                      width: 100%;
+                      padding: 10px 12px;
+                      border: 1px solid #dee2e6;
+                      border-radius: 5px;
+                      font-size: 1em;
+                    "
+                  >
+                    <option value="">Choose a verb...</option>
+                  </select>
+                </div>
+                <div style="text-align: center">
+                  <button
+                    class="btn"
+                    onclick="loadSelectedVerb()"
+                    id="loadVerbButton"
+                    disabled
+                  >
+                    Load Selected Verb
+                  </button>
+                </div>
+              </div>
+
+              <!-- Tense Selection -->
+              <div
+                style="
+                  margin-top: 20px;
+                  padding-top: 20px;
+                  border-top: 1px solid #dee2e6;
+                "
+              >
+                <label
+                  style="
+                    font-weight: 600;
+                    color: #495057;
+                    margin-bottom: 10px;
+                    display: block;
+                  "
+                  >Select Tenses to Practice:</label
+                >
+                <div class="tense-checkboxes" id="completeTenseCheckboxes">
+                  <!-- Checkboxes will be populated by JavaScript -->
+                </div>
+                <div class="select-buttons">
+                  <button class="btn-small" onclick="selectAllCompleteTenses()">
+                    Select All
+                  </button>
+                  <button
+                    class="btn-small"
+                    onclick="selectBasicCompleteTenses()"
+                  >
+                    Basic Only
+                  </button>
+                  <button class="btn-small" onclick="clearAllCompleteTenses()">
+                    Clear All
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div style="margin-bottom: 20px">
-              <button class="btn" onclick="getNewCompleteVerb()">
+            <div
+              id="completeVerbDisplay"
+              style="margin-bottom: 20px; text-align: center"
+            >
+              <div style="font-size: 1.5em; font-weight: 600; color: #495057">
+                Click "New Verb" or select a specific verb to start
+              </div>
+            </div>
+
+            <div style="margin-bottom: 20px; text-align: center">
+              <button
+                class="btn"
+                onclick="getNewCompleteVerb()"
+                id="newVerbButton"
+              >
                 New Verb
               </button>
               <button class="btn btn-success" onclick="checkAllProgress()">
@@ -11169,6 +11397,14 @@
       // Complete conjugation state
       let currentCompleteVerb = null;
       let answersShown = {};
+      let completeSettings = {
+        mode: "random",
+        verbLevelStart: "beginner",
+        verbLevelEnd: "advanced",
+        regularityFilter: "all",
+        selectedTenses: [...basicTenses],
+        specificVerb: null,
+      };
 
       // Statistics
       let stats = {
@@ -11767,10 +12003,208 @@
       // COMPLETE CONJUGATION TAB FUNCTIONS
       // ===================================
 
+      function initializeCompleteTenseCheckboxes() {
+        const container = document.getElementById("completeTenseCheckboxes");
+        container.innerHTML = "";
+
+        Object.entries(allTenses).forEach(([tenseKey, tenseName]) => {
+          const checked = completeSettings.selectedTenses.includes(tenseKey)
+            ? "checked"
+            : "";
+          container.innerHTML += `
+            <div class="tense-checkbox">
+              <input type="checkbox" id="complete-tense-${tenseKey}" value="${tenseKey}" ${checked} onchange="updateCompleteSelectedTenses()">
+              <label for="complete-tense-${tenseKey}">${tenseName}</label>
+            </div>
+          `;
+        });
+      }
+
+      function updateCompleteSelectedTenses() {
+        const checkboxes = document.querySelectorAll(
+          '#completeTenseCheckboxes input[type="checkbox"]'
+        );
+        completeSettings.selectedTenses = Array.from(checkboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => cb.value);
+      }
+
+      function selectAllCompleteTenses() {
+        const checkboxes = document.querySelectorAll(
+          '#completeTenseCheckboxes input[type="checkbox"]'
+        );
+        checkboxes.forEach((cb) => (cb.checked = true));
+        updateCompleteSelectedTenses();
+      }
+
+      function selectBasicCompleteTenses() {
+        const checkboxes = document.querySelectorAll(
+          '#completeTenseCheckboxes input[type="checkbox"]'
+        );
+        checkboxes.forEach((cb) => {
+          cb.checked = basicTenses.includes(cb.value);
+        });
+        updateCompleteSelectedTenses();
+      }
+
+      function clearAllCompleteTenses() {
+        const checkboxes = document.querySelectorAll(
+          '#completeTenseCheckboxes input[type="checkbox"]'
+        );
+        checkboxes.forEach((cb) => (cb.checked = false));
+        updateCompleteSelectedTenses();
+      }
+
+      function updateCompleteSettings() {
+        const levelStart = document.getElementById(
+          "completeVerbLevelStart"
+        ).value;
+        const levelEnd = document.getElementById("completeVerbLevelEnd").value;
+        const regularityFilter = document.getElementById(
+          "completeRegularityFilter"
+        ).value;
+
+        const levelOrder = ["beginner", "intermediate", "advanced"];
+        const startIndex = levelOrder.indexOf(levelStart);
+        const endIndex = levelOrder.indexOf(levelEnd);
+
+        if (endIndex < startIndex) {
+          document.getElementById("completeVerbLevelEnd").value = levelStart;
+          completeSettings.verbLevelEnd = levelStart;
+        } else {
+          completeSettings.verbLevelEnd = levelEnd;
+        }
+
+        completeSettings.verbLevelStart = levelStart;
+        completeSettings.regularityFilter = regularityFilter;
+      }
+
+      function getCompleteAvailableVerbs() {
+        const levelOrder = ["beginner", "intermediate", "advanced"];
+        const startIndex = levelOrder.indexOf(completeSettings.verbLevelStart);
+        const endIndex = levelOrder.indexOf(completeSettings.verbLevelEnd);
+        const targetLevels = levelOrder.slice(startIndex, endIndex + 1);
+
+        return Object.keys(verbDatabase).filter((verb) => {
+          const verbData = verbDatabase[verb];
+
+          if (!targetLevels.includes(verbData.difficulty)) {
+            return false;
+          }
+
+          if (completeSettings.regularityFilter === "all") {
+            return true;
+          } else if (completeSettings.regularityFilter === "regular") {
+            return verbData.regular === "regular";
+          } else if (completeSettings.regularityFilter === "regular_mostly") {
+            return (
+              verbData.regular === "regular" ||
+              verbData.regular === "mostly_regular"
+            );
+          } else if (completeSettings.regularityFilter === "mostly_regular") {
+            return verbData.regular === "mostly_regular";
+          } else if (completeSettings.regularityFilter === "irregular") {
+            return verbData.regular === "irregular";
+          }
+
+          return true;
+        });
+      }
+
+      function getCompleteAvailableTenses(verb) {
+        const verbData = verbDatabase[verb];
+        return completeSettings.selectedTenses.filter((tense) => {
+          const conjugation = verbData.conjugations[tense];
+          return (
+            conjugation &&
+            Object.values(conjugation).some((form) => form && form !== "-")
+          );
+        });
+      }
+
+      function populateSpecificVerbSelect() {
+        const select = document.getElementById("specificVerbSelect");
+        select.innerHTML = '<option value="">Choose a verb...</option>';
+
+        const allVerbs = Object.keys(verbDatabase).sort();
+
+        allVerbs.forEach((verb) => {
+          const verbData = verbDatabase[verb];
+          const difficulty =
+            verbData.difficulty.charAt(0).toUpperCase() +
+            verbData.difficulty.slice(1);
+          const regularity =
+            verbData.regular === "regular"
+              ? "Regular"
+              : verbData.regular === "mostly_regular"
+              ? "Mostly Regular"
+              : "Irregular";
+
+          const option = document.createElement("option");
+          option.value = verb;
+          option.textContent = `${verb} (${verbData.translation}) - ${difficulty}, ${regularity}`;
+          select.appendChild(option);
+        });
+
+        select.addEventListener("change", function () {
+          const loadButton = document.getElementById("loadVerbButton");
+          loadButton.disabled = !this.value;
+        });
+      }
+
+      function handleVerbModeChange() {
+        const mode = document.querySelector(
+          'input[name="verbMode"]:checked'
+        ).value;
+        completeSettings.mode = mode;
+
+        const randomControls = document.getElementById("randomVerbControls");
+        const specificControls = document.getElementById(
+          "specificVerbControls"
+        );
+        const newVerbButton = document.getElementById("newVerbButton");
+
+        if (mode === "random") {
+          randomControls.style.display = "block";
+          specificControls.style.display = "none";
+          newVerbButton.style.display = "inline-block";
+        } else {
+          randomControls.style.display = "none";
+          specificControls.style.display = "block";
+          newVerbButton.style.display = "none";
+
+          // Populate the select if not already done
+          if (
+            document.getElementById("specificVerbSelect").options.length <= 1
+          ) {
+            populateSpecificVerbSelect();
+          }
+        }
+      }
+
+      function loadSelectedVerb() {
+        const select = document.getElementById("specificVerbSelect");
+        const selectedVerb = select.value;
+
+        if (!selectedVerb) {
+          return;
+        }
+
+        currentCompleteVerb = selectedVerb;
+        answersShown = {};
+
+        displayCompleteConjugationForm();
+      }
+
       function getNewCompleteVerb() {
-        const availableVerbs = getAvailableVerbs();
+        if (completeSettings.selectedTenses.length === 0) {
+          alert("Please select at least one tense to practice");
+          return;
+        }
+
+        const availableVerbs = getCompleteAvailableVerbs();
         if (availableVerbs.length === 0) {
-          alert("No verbs available");
+          alert("No verbs available for current settings");
           return;
         }
 
@@ -11797,7 +12231,7 @@
           </div>
         `;
 
-        const availableTenses = getAvailableTenses(currentCompleteVerb);
+        const availableTenses = getCompleteAvailableTenses(currentCompleteVerb);
 
         let sectionsHtml = "";
         availableTenses.forEach((tense) => {
@@ -11962,7 +12396,9 @@
       function initializeApp() {
         setupTabSwitching();
         initializeTenseCheckboxes();
+        initializeCompleteTenseCheckboxes();
         updateSettings();
+        updateCompleteSettings();
         updateStatsDisplay();
         updateRecentMistakes();
         updateAvailableVerbCount();
