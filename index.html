@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Italian Conjugation Practice</title>
+    <link
+      rel="manifest"
+      href="data:application/json;base64,eyJuYW1lIjoiSXRhbGlhbiBDb25qdWdhdGlvbiBQcmFjdGljZSIsInNob3J0X25hbWUiOiJJdGFsaWFuQ29uaiIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMmU3ZDMyIiwidGhlbWVfY29sb3IiOiIjMmU3ZDMyIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIZHBaSFJvUFNJeE1qQWlJR2hsYVdkb2REMG9NVEF3SWo0OFkybHlZMnhsSUdONFBTSTJNQ0lnWTNrOUlqWXdJaUJ5UFNJek1DSWdabWxzYkQwaUl6SXpOekU0TXlJdlBqeDBaWGgwSUhnMlBTSTJNQ0lnZVRJOUlqUWlJSE4wZVd4bFBTSm1hV3hzT2lOdmJIZDBaVnRtYjI1MExYTnBlbVU2TVRBd2VIQmNJaUowWlhoMExXRnVZMmh2Y2owaWJXbGtaR3hsSWo1RFQwNGNUa1JjVkR3dmRHVjRkRDQ4TDNOMlp6ND0iLCJzaXplcyI6IjEyMHgxMjAiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0="
+    />
     <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
     <style>
       * {
@@ -13,7 +17,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         color: #333;
@@ -80,6 +85,288 @@
 
       .tab-content.active {
         display: block;
+      }
+
+      .practice-section {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .settings-panel {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #dee2e6;
+      }
+
+      .settings-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .settings-group {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        min-width: 250px;
+      }
+
+      .settings-group label {
+        font-weight: 600;
+        color: #495057;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .settings-group select {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        font-size: 1em;
+        background: white;
+      }
+
+      .level-range {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .level-range select {
+        padding: 8px 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        font-size: 1em;
+        background: white;
+      }
+
+      .tense-selection {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        text-align: left;
+      }
+
+      .tense-checkboxes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .tense-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tense-checkbox input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+      }
+
+      .tense-checkbox label {
+        font-weight: normal;
+        margin: 0;
+        cursor: pointer;
+      }
+
+      .select-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        justify-content: center;
+      }
+
+      .btn-small {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 0.85em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-small:hover {
+        background: #5a6268;
+        transform: translateY(-1px);
+      }
+
+      .conjugation-display {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 30px;
+        margin: 25px 0;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border: 2px solid #dee2e6;
+      }
+
+      .verb-prompt {
+        font-size: 1.8em;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 15px;
+      }
+
+      .conjugation-prompt {
+        font-size: 1.3em;
+        color: #6c757d;
+        margin-bottom: 20px;
+      }
+
+      .answer-section {
+        margin-top: 20px;
+      }
+
+      .answer-input {
+        padding: 15px;
+        font-size: 1.2em;
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+        transition: border-color 0.3s ease;
+      }
+
+      .answer-input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .answer-input.correct {
+        border-color: #28a745;
+        background-color: #d4edda;
+      }
+
+      .answer-input.incorrect {
+        border-color: #dc3545;
+        background-color: #f8d7da;
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .btn {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+      }
+
+      .btn-secondary:hover {
+        box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+      }
+
+      .btn-success {
+        background: #28a745;
+      }
+
+      .btn-success:hover {
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+      }
+
+      .btn-warning {
+        background: #ffc107;
+        color: #212529;
+      }
+
+      .btn-warning:hover {
+        box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+      }
+
+      .feedback-section {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        display: none;
+      }
+
+      .feedback-section.success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        display: block;
+      }
+
+      .feedback-section.error {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        display: block;
+      }
+
+      .feedback-section.info {
+        background: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: #0c5460;
+        display: block;
+      }
+
+      .empty-state {
+        color: #6c757d;
+        font-style: italic;
+        font-size: 1.1em;
+      }
+
+      .stats-section {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .stat-item {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #dee2e6;
+      }
+
+      .stat-number {
+        font-size: 1.5em;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .stat-label {
+        font-size: 0.9em;
+        color: #6c757d;
+        margin-top: 5px;
       }
 
       /* Complete Conjugation Styles */
@@ -166,31 +453,6 @@
         max-width: 140px;
       }
 
-      .btn {
-        background: linear-gradient(45deg, #667eea, #764ba2);
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 25px;
-        font-size: 1em;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 500;
-      }
-
-      .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-      }
-
-      .btn-success {
-        background: #28a745;
-      }
-
-      .btn-success:hover {
-        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-      }
-
       .btn-toggle-answers {
         background: #6c757d;
         color: white;
@@ -263,16 +525,29 @@
           font-size: 2em;
         }
 
-        .conjugation-grid {
+        .settings-row {
+          flex-direction: column;
+        }
+
+        .controls {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+        }
+
+        .stats-section {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .tense-checkboxes {
           grid-template-columns: 1fr;
         }
 
-        .tabs {
-          font-size: 0.9em;
-        }
-
-        .tab {
-          padding: 8px 12px;
+        .conjugation-grid {
+          grid-template-columns: 1fr;
         }
 
         .answer-display {
@@ -299,15 +574,109 @@
 
         <!-- PRACTICE TAB -->
         <div class="tab-content active" id="practice">
-          <div style="text-align: center; padding: 20px;">
-            <h3>Single Conjugation Practice</h3>
-            <p style="color: #6c757d; margin-bottom: 20px;">Practice one conjugation at a time</p>
-            <div style="font-size: 1.5em; font-weight: 600; color: #495057; margin: 20px 0;">
-              Click "New Verb" in original app to practice
+          <div class="practice-section">
+            <div class="stats-section">
+              <div class="stat-item">
+                <div class="stat-number" id="correctCount">0</div>
+                <div class="stat-label">Correct</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="accuracyPercent">0%</div>
+                <div class="stat-label">Accuracy</div>
+              </div>
             </div>
-            <p style="color: #6c757d; font-style: italic;">
-              (Original practice functionality - replace this placeholder with your full practice tab code)
-            </p>
+
+            <div style="text-align: center; margin-bottom: 15px">
+              <div
+                style="
+                  background: #e8f4f8;
+                  padding: 10px;
+                  border-radius: 8px;
+                  display: inline-block;
+                "
+              >
+                <strong>Available verbs:</strong>
+                <span id="availableVerbCount">0</span>
+              </div>
+            </div>
+
+            <div class="settings-panel">
+              <div class="settings-row">
+                <div class="settings-group">
+                  <label>Verb Difficulty Range:</label>
+                  <div class="level-range">
+                    <select id="verbLevelStart" onchange="updateSettings()">
+                      <option value="beginner">Beginner</option>
+                      <option value="intermediate">Intermediate</option>
+                      <option value="advanced">Advanced</option>
+                    </select>
+                    <span>to</span>
+                    <select id="verbLevelEnd" onchange="updateSettings()">
+                      <option value="beginner">Beginner</option>
+                      <option value="intermediate">Intermediate</option>
+                      <option value="advanced" selected>Advanced</option>
+                    </select>
+                  </div>
+                  <div class="settings-group">
+                    <label>Verb Regularity:</label>
+                    <select id="regularityFilter" onchange="updateSettings()">
+                      <option value="all">All Verbs</option>
+                      <option value="regular">Regular Only</option>
+                      <option value="regular_mostly">
+                        Regular + Mostly Regular
+                      </option>
+                      <option value="mostly_regular">
+                        Mostly Regular Only
+                      </option>
+                      <option value="irregular">Irregular Only</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tense-selection">
+                <label
+                  style="
+                    font-weight: 600;
+                    color: #495057;
+                    margin-bottom: 10px;
+                    display: block;
+                  "
+                  >Select Tenses to Practice:</label
+                >
+                <div class="tense-checkboxes" id="tenseCheckboxes">
+                  <!-- Checkboxes will be populated by JavaScript -->
+                </div>
+                <div class="select-buttons">
+                  <button class="btn-small" onclick="selectAllTenses()">
+                    Select All
+                  </button>
+                  <button class="btn-small" onclick="selectBasicTenses()">
+                    Basic Only
+                  </button>
+                  <button class="btn-small" onclick="clearAllTenses()">
+                    Clear All
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="conjugation-display" id="conjugationDisplay">
+              <div class="empty-state">
+                Click "New Verb" to start practicing!
+              </div>
+            </div>
+
+            <div class="controls">
+              <button class="btn" onclick="getNewVerb()">New Verb</button>
+              <button class="btn btn-secondary" onclick="resetStats()">
+                Reset Stats
+              </button>
+            </div>
           </div>
         </div>
 
@@ -336,11 +705,37 @@
 
         <!-- PROGRESS TAB -->
         <div class="tab-content" id="progress">
-          <div style="text-align: center; padding: 20px;">
-            <h3>Practice Progress</h3>
-            <p style="color: #6c757d; margin-top: 20px;">
-              (Progress tracking - replace this placeholder with your full progress tab code)
-            </p>
+          <div style="text-align: center">
+            <h3 style="margin-bottom: 20px">Practice Progress</h3>
+
+            <div class="stats-section">
+              <div class="stat-item">
+                <div class="stat-number" id="sessionLength">0</div>
+                <div class="stat-label">This Session</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="currentStreak">0</div>
+                <div class="stat-label">Current Streak</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="bestStreak">0</div>
+                <div class="stat-label">Best Streak</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 30px">
+              <h4 style="margin-bottom: 15px">Recent Mistakes</h4>
+              <div
+                id="recentMistakes"
+                style="text-align: left; max-height: 200px; overflow-y: auto"
+              >
+                <p
+                  style="color: #6c757d; font-style: italic; text-align: center"
+                >
+                  No mistakes yet - great job!
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -351,26 +746,52 @@
 
             <h4>Practice Tab:</h4>
             <p>
-              Practice one conjugation at a time. Get a random verb and conjugation challenge, 
-              type your answer, and get immediate feedback.
+              Set your difficulty range and select which tenses you want to practice. 
+              Click "New Verb" to get a random verb and conjugation challenge. Type your answer and
+              press Enter to submit. After checking your answer, click "New Verb" again to continue.
             </p>
 
             <h4>Complete Conjugation Tab:</h4>
             <p>
               Click "New Verb" to get a random verb. Fill in as many conjugations as you can across all tenses. 
               Use "Check Progress" to see which answers are correct (green) or incorrect (red). Unfilled fields are ignored.
+              You can continue editing and re-check as many times as needed.
             </p>
 
             <h4>Features:</h4>
             <ul>
               <li>🔊 Click the speaker icon to hear pronunciation of the verb</li>
               <li>📖 Click the book icon to view full conjugation tables</li>
-              <li>👁️ Use "Show Answers" per tense to reveal correct conjugations</li>
-              <li>✓ "Check Progress" validates your answers without showing solutions</li>
-              <li>You can continue editing and re-check as many times as needed</li>
+              <li>💡 Regularity hints show if a verb follows regular patterns</li>
+              <li>📚 Rule explanations help you understand conjugation patterns</li>
+              <li>📊 Track your accuracy and progress over time</li>
+              <li>🎯 Choose specific tenses and difficulty levels</li>
+              <li>🎮 Use difficulty ranges from beginner to advanced</li>
             </ul>
 
-            <p style="margin-top: 20px; font-style: italic; color: #6c757d;">
+            <h4>Difficulty Levels:</h4>
+            <p>
+              <strong>Beginner:</strong> Most common Italian verbs<br />
+              <strong>Intermediate:</strong> Common and some irregular verbs<br />
+              <strong>Advanced:</strong> Complex and irregular verbs
+            </p>
+
+            <h4>Tips:</h4>
+            <ul>
+              <li>Start with Basic tenses and Beginner-Intermediate range</li>
+              <li>
+                The app won't auto-advance - you control when to get a new verb
+              </li>
+              <li>
+                Use the pronunciation feature to improve your spoken Italian
+              </li>
+              <li>Click "Show Rule" to understand the conjugation patterns</li>
+              <li>
+                Regular practice is more effective than long study sessions
+              </li>
+            </ul>
+
+            <p style="margin-top: 20px; font-style: italic; color: #6c757d">
               Buona pratica! (Good practice!)
             </p>
           </div>
@@ -379,40 +800,11 @@
     </div>
 
     <script>
-      // PLACEHOLDER - Replace with your full verb database
+      // ===================================
+      // VERB DATABASE - REPLACE THIS SECTION WITH YOUR FULL DATABASE
+      // ===================================
       const verbDatabase = {
-        parlare: {
-          translation: "to speak",
-          regular: "regular",
-          auxiliary: "avere",
-          difficulty: "beginner",
-          conjugations: {
-            presente: {
-              io: "parlo",
-              tu: "parli",
-              lui: "parla",
-              noi: "parliamo",
-              voi: "parlate",
-              loro: "parlano",
-            },
-            passato_prossimo: {
-              io: "ho parlato",
-              tu: "hai parlato",
-              lui: "ha parlato",
-              noi: "abbiamo parlato",
-              voi: "avete parlato",
-              loro: "hanno parlato",
-            },
-            futuro_semplice: {
-              io: "parlerò",
-              tu: "parlerai",
-              lui: "parlerà",
-              noi: "parleremo",
-              voi: "parlerete",
-              loro: "parleranno",
-            }
-          }
-        }
+        // PASTE YOUR FULL VERB DATABASE HERE
       };
 
       // Available tenses with their display names
@@ -422,25 +814,69 @@
         passato_prossimo: "Passato Prossimo",
         passato_remoto: "Passato Remoto",
         trapassato_prossimo: "Trapassato Prossimo",
+        trapassato_remoto: "Trapassato Remoto",
         futuro_semplice: "Futuro Semplice",
+        futuro_anteriore: "Futuro Anteriore",
         condizionale_presente: "Condizionale Presente",
+        condizionale_passato: "Condizionale Passato",
         congiuntivo_presente: "Congiuntivo Presente",
+        congiuntivo_passato: "Congiuntivo Passato",
+        congiuntivo_imperfetto: "Congiuntivo Imperfetto",
+        congiuntivo_trapassato: "Congiuntivo Trapassato",
         imperativo_presente: "Imperativo",
       };
+
+      const basicTenses = [
+        "presente",
+        "passato_prossimo",
+        "futuro_semplice",
+        "imperativo_presente",
+      ];
+
+      // Person definitions in Italian
+      const persons = {
+        io: "prima persona singolare",
+        tu: "seconda persona singolare",
+        lui: "terza persona singolare",
+        noi: "prima persona plurale",
+        voi: "seconda persona plurale",
+        loro: "terza persona plurale",
+      };
+
+      // Current practice state
+      let currentVerb = null;
+      let currentTense = null;
+      let currentPerson = null;
+      let currentAnswer = null;
+      let attempts = 0;
+      let maxAttempts = 3;
+      let currentVerbAttempts = [];
 
       // Complete conjugation state
       let currentCompleteVerb = null;
       let answersShown = {};
 
+      // Statistics
+      let stats = {
+        correct: 0,
+        total: 0,
+        currentStreak: 0,
+        bestStreak: 0,
+        recentMistakes: [],
+      };
+
       // Settings
       let settings = {
         verbLevelStart: "beginner",
         verbLevelEnd: "advanced",
-        selectedTenses: Object.keys(allTenses),
+        selectedTenses: [...basicTenses],
         regularityFilter: "all",
       };
 
-      // Pronounce Italian words
+      // ===================================
+      // UTILITY FUNCTIONS
+      // ===================================
+
       function pronounceWord(word) {
         if (typeof responsiveVoice !== "undefined") {
           responsiveVoice.speak(word, "Italian Male", {
@@ -453,13 +889,11 @@
         }
       }
 
-      // Open Italian conjugation in new tab
       function openConjugation(verb) {
         const conjugationUrl = `https://conjugator.reverso.net/conjugation-italian-verb-${encodeURIComponent(verb)}.html`;
         window.open(conjugationUrl, "_blank");
       }
 
-      // Normalize text for comparison
       function normalizeText(text) {
         return text
           .toLowerCase()
@@ -469,7 +903,6 @@
           .trim();
       }
 
-      // Check if answer is correct with flexible matching
       function isAnswerCorrect(userAnswer, correctAnswer) {
         const normalizedUser = normalizeText(userAnswer);
         const normalizedCorrect = normalizeText(correctAnswer);
@@ -486,7 +919,6 @@
         return false;
       }
 
-      // Generate all valid gender/number variations
       function generateGenderNumberVariations(correctAnswer) {
         const variations = [correctAnswer];
 
@@ -521,21 +953,445 @@
         return [...new Set(variations)];
       }
 
-      // Get available verbs based on settings
-      function getAvailableVerbs() {
-        return Object.keys(verbDatabase);
+      function getRegularityHint(verbData) {
+        let regularityText = "";
+        let auxiliaryText = "";
+
+        if (verbData.regular === "regular") {
+          regularityText = "✅ Regular verb";
+        } else if (verbData.regular === "mostly_regular") {
+          regularityText = "🟡 Mostly regular verb";
+        } else {
+          regularityText = "⚠️ Irregular verb";
+        }
+
+        if (verbData.auxiliary) {
+          if (verbData.auxiliary.includes("*")) {
+            const baseAux = verbData.auxiliary.replace("*", "");
+            auxiliaryText = `Usually uses '${baseAux}' in passato prossimo (can vary by usage)`;
+          } else {
+            auxiliaryText = `Uses '${verbData.auxiliary}' in passato prossimo`;
+          }
+        }
+
+        return regularityText + (auxiliaryText ? "<br>" + auxiliaryText : "");
       }
 
-      // Get available tenses for a verb
-      function getAvailableTenses(verb) {
-        const verbData = verbDatabase[verb];
-        return settings.selectedTenses.filter(tense => {
-          const conjugation = verbData.conjugations[tense];
-          return conjugation && Object.values(conjugation).some(form => form && form !== "-");
+      // ===================================
+      // PRACTICE TAB FUNCTIONS
+      // ===================================
+
+      function getAvailableVerbs() {
+        const levelOrder = ["beginner", "intermediate", "advanced"];
+        const startIndex = levelOrder.indexOf(settings.verbLevelStart);
+        const endIndex = levelOrder.indexOf(settings.verbLevelEnd);
+        const targetLevels = levelOrder.slice(startIndex, endIndex + 1);
+
+        return Object.keys(verbDatabase).filter((verb) => {
+          const verbData = verbDatabase[verb];
+
+          if (!targetLevels.includes(verbData.difficulty)) {
+            return false;
+          }
+
+          if (settings.regularityFilter === "all") {
+            return true;
+          } else if (settings.regularityFilter === "regular") {
+            return verbData.regular === "regular";
+          } else if (settings.regularityFilter === "regular_mostly") {
+            return verbData.regular === "regular" || verbData.regular === "mostly_regular";
+          } else if (settings.regularityFilter === "mostly_regular") {
+            return verbData.regular === "mostly_regular";
+          } else if (settings.regularityFilter === "irregular") {
+            return verbData.regular === "irregular";
+          }
+
+          return true;
         });
       }
 
-      // Get new verb for complete conjugation practice
+      function getAvailableTenses(verb) {
+        const verbData = verbDatabase[verb];
+
+        return settings.selectedTenses.filter((tense) => {
+          const conjugation = verbData.conjugations[tense];
+          if (!conjugation) return false;
+
+          return Object.values(conjugation).some(
+            (form) => form && form !== "-"
+          );
+        });
+      }
+
+      function updateAvailableVerbCount() {
+        const availableVerbs = getAvailableVerbs();
+        const countElement = document.getElementById("availableVerbCount");
+        if (countElement) {
+          countElement.textContent = availableVerbs.length;
+
+          const parent = countElement.parentElement;
+          if (availableVerbs.length === 0) {
+            parent.style.background = "#f8d7da";
+            parent.style.color = "#721c24";
+          } else if (availableVerbs.length < 5) {
+            parent.style.background = "#fff3cd";
+            parent.style.color = "#856404";
+          } else {
+            parent.style.background = "#e8f4f8";
+            parent.style.color = "#0c5460";
+          }
+        }
+      }
+
+      function initializeTenseCheckboxes() {
+        const container = document.getElementById("tenseCheckboxes");
+        container.innerHTML = "";
+
+        Object.entries(allTenses).forEach(([tenseKey, tenseName]) => {
+          const checked = settings.selectedTenses.includes(tenseKey) ? "checked" : "";
+          container.innerHTML += `
+            <div class="tense-checkbox">
+              <input type="checkbox" id="tense-${tenseKey}" value="${tenseKey}" ${checked} onchange="updateSelectedTenses()">
+              <label for="tense-${tenseKey}">${tenseName}</label>
+            </div>
+          `;
+        });
+      }
+
+      function updateSelectedTenses() {
+        const checkboxes = document.querySelectorAll('#tenseCheckboxes input[type="checkbox"]');
+        settings.selectedTenses = Array.from(checkboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => cb.value);
+      }
+
+      function selectAllTenses() {
+        const checkboxes = document.querySelectorAll('#tenseCheckboxes input[type="checkbox"]');
+        checkboxes.forEach((cb) => (cb.checked = true));
+        updateSelectedTenses();
+      }
+
+      function selectBasicTenses() {
+        const checkboxes = document.querySelectorAll('#tenseCheckboxes input[type="checkbox"]');
+        checkboxes.forEach((cb) => {
+          cb.checked = basicTenses.includes(cb.value);
+        });
+        updateSelectedTenses();
+      }
+
+      function clearAllTenses() {
+        const checkboxes = document.querySelectorAll('#tenseCheckboxes input[type="checkbox"]');
+        checkboxes.forEach((cb) => (cb.checked = false));
+        updateSelectedTenses();
+      }
+
+      function updateSettings() {
+        const levelStart = document.getElementById("verbLevelStart").value;
+        const levelEnd = document.getElementById("verbLevelEnd").value;
+        const regularityFilter = document.getElementById("regularityFilter").value;
+
+        const levelOrder = ["beginner", "intermediate", "advanced"];
+        const startIndex = levelOrder.indexOf(levelStart);
+        const endIndex = levelOrder.indexOf(levelEnd);
+
+        if (endIndex < startIndex) {
+          document.getElementById("verbLevelEnd").value = levelStart;
+          settings.verbLevelEnd = levelStart;
+        } else {
+          settings.verbLevelEnd = levelEnd;
+        }
+
+        settings.verbLevelStart = levelStart;
+        settings.regularityFilter = regularityFilter;
+
+        updateAvailableVerbCount();
+      }
+
+      function getNewVerb() {
+        if (settings.selectedTenses.length === 0) {
+          showFeedback("Please select at least one tense to practice", "error");
+          return;
+        }
+
+        const availableVerbs = getAvailableVerbs();
+
+        if (availableVerbs.length === 0) {
+          showFeedback("No verbs available for current difficulty range", "error");
+          return;
+        }
+
+        currentVerb = availableVerbs[Math.floor(Math.random() * availableVerbs.length)];
+
+        const availableTenses = getAvailableTenses(currentVerb);
+
+        if (availableTenses.length === 0) {
+          showFeedback("No selected tenses available for this verb", "error");
+          return;
+        }
+
+        currentTense = availableTenses[Math.floor(Math.random() * availableTenses.length)];
+
+        const availablePersons = Object.keys(verbDatabase[currentVerb].conjugations[currentTense]);
+        currentPerson = availablePersons[Math.floor(Math.random() * availablePersons.length)];
+
+        currentAnswer = verbDatabase[currentVerb].conjugations[currentTense][currentPerson];
+
+        if (currentAnswer === "-") {
+          getNewVerb();
+          return;
+        }
+
+        attempts = 0;
+        currentVerbAttempts = [];
+
+        displayChallenge();
+        hideFeedback();
+      }
+
+      function displayChallenge() {
+        const display = document.getElementById("conjugationDisplay");
+        const verbData = verbDatabase[currentVerb];
+
+        display.innerHTML = `
+          <div class="verb-prompt">
+            ${currentVerb}
+            <span class="speaker-icon" onclick="pronounceWord('${currentVerb}')" title="Pronounce verb">🔊</span>
+            <span class="dict-icon" onclick="openConjugation('${currentVerb}')" title="View full conjugation">📖</span>
+          </div>
+          <div style="font-size: 1.1em; color: #6c757d; margin-bottom: 15px;">
+            ${verbData.translation}
+          </div>
+          <div id="regularityHint" style="font-size: 0.9em; color: #6c757d; margin-bottom: 15px; display: none;">
+            ${getRegularityHint(verbData)}
+          </div>
+          <div class="conjugation-prompt">
+            ${allTenses[currentTense]} - ${persons[currentPerson]}
+          </div>
+          <div class="answer-section">
+            <input type="text" class="answer-input" id="answerInput" 
+                   placeholder="Type your answer..." onkeypress="handleKeyPress(event)">
+          </div>
+          <div class="controls" style="margin-top: 15px;">
+            <button class="btn" onclick="checkAnswer()">Check Answer</button>
+            <button class="btn btn-warning" onclick="showCorrectAnswer()">Show Answer</button>
+            <button class="btn btn-secondary" onclick="toggleRegularityHint()">Show Hint</button>
+          </div>
+        `;
+
+        document.getElementById("answerInput").focus();
+      }
+
+      function toggleRegularityHint() {
+        const hint = document.getElementById("regularityHint");
+        const button = event.target;
+
+        if (hint.style.display === "none") {
+          hint.style.display = "block";
+          button.textContent = "Hide Hint";
+        } else {
+          hint.style.display = "none";
+          button.textContent = "Show Hint";
+        }
+      }
+
+      function handleKeyPress(event) {
+        if (event.key === "Enter") {
+          checkAnswer();
+        }
+      }
+
+      function checkAnswer() {
+        const userAnswer = document.getElementById("answerInput").value.trim();
+
+        if (!userAnswer) {
+          showFeedback("Please enter an answer", "error");
+          return;
+        }
+
+        attempts++;
+        currentVerbAttempts.push(userAnswer);
+
+        if (isAnswerCorrect(userAnswer, currentAnswer)) {
+          handleCorrectAnswer();
+        } else {
+          handleWrongAnswer(userAnswer);
+        }
+      }
+
+      function handleCorrectAnswer() {
+        const input = document.getElementById("answerInput");
+        input.className = "answer-input correct";
+        input.disabled = true;
+
+        stats.correct++;
+        stats.total++;
+        stats.currentStreak++;
+
+        if (stats.currentStreak > stats.bestStreak) {
+          stats.bestStreak = stats.currentStreak;
+        }
+
+        updateStatsDisplay();
+
+        let attemptsText = "";
+        if (currentVerbAttempts.length > 1) {
+          const wrongAttempts = currentVerbAttempts.slice(0, -1);
+          attemptsText = wrongAttempts
+            .map((attempt, index) => `Your answer #${index + 1}: ${attempt}`)
+            .join("<br>") + "<br><br>";
+        }
+
+        showFeedback(`${attemptsText}Correct! 🎉 Click "New Verb" to continue.`, "success");
+      }
+
+      function handleWrongAnswer(userAnswer) {
+        const input = document.getElementById("answerInput");
+        input.className = "answer-input incorrect";
+
+        stats.total++;
+        stats.currentStreak = 0;
+
+        stats.recentMistakes.unshift({
+          verb: currentVerb,
+          tense: currentTense,
+          person: currentPerson,
+          userAnswer: userAnswer,
+          correctAnswer: currentAnswer,
+          timestamp: new Date(),
+        });
+
+        if (stats.recentMistakes.length > 10) {
+          stats.recentMistakes = stats.recentMistakes.slice(0, 10);
+        }
+
+        updateStatsDisplay();
+        updateRecentMistakes();
+
+        if (attempts < maxAttempts) {
+          showFeedback(
+            `Not quite right. Try again! (Attempt ${attempts}/${maxAttempts})`,
+            "error"
+          );
+
+          setTimeout(() => {
+            input.className = "answer-input";
+            input.value = "";
+            input.focus();
+          }, 1500);
+        } else {
+          let attemptsText = "";
+          if (currentVerbAttempts.length > 0) {
+            attemptsText = currentVerbAttempts
+              .map((attempt, index) => `Your answer #${index + 1}: ${attempt}`)
+              .join("<br>") + "<br><br>";
+          }
+
+          showFeedback(
+            `${attemptsText}Incorrect. The answer is: <strong>${currentAnswer}</strong><br>Click "New Verb" to continue.`,
+            "error"
+          );
+          input.disabled = true;
+        }
+      }
+
+      function showCorrectAnswer() {
+        const input = document.getElementById("answerInput");
+        input.value = currentAnswer;
+        input.className = "answer-input";
+        input.disabled = true;
+
+        let attemptsText = "";
+        if (currentVerbAttempts.length > 0) {
+          attemptsText = currentVerbAttempts
+            .map((attempt, index) => `Your answer #${index + 1}: ${attempt}`)
+            .join("<br>") + "<br><br>";
+        }
+
+        showFeedback(
+          `${attemptsText}The correct answer is: <strong>${currentAnswer}</strong><br>Click "New Verb" to continue.`,
+          "info"
+        );
+
+        stats.total++;
+        stats.currentStreak = 0;
+        updateStatsDisplay();
+      }
+
+      function showFeedback(message, type) {
+        const feedback = document.querySelector(".feedback-section");
+        if (!feedback) {
+          const feedbackDiv = document.createElement("div");
+          feedbackDiv.className = "feedback-section";
+          document.getElementById("conjugationDisplay").appendChild(feedbackDiv);
+        }
+
+        const feedbackElement = document.querySelector(".feedback-section");
+        feedbackElement.innerHTML = message;
+        feedbackElement.className = `feedback-section ${type}`;
+      }
+
+      function hideFeedback() {
+        const feedback = document.querySelector(".feedback-section");
+        if (feedback) {
+          feedback.className = "feedback-section";
+        }
+      }
+
+      function updateStatsDisplay() {
+        document.getElementById("correctCount").textContent = stats.correct;
+        document.getElementById("totalCount").textContent = stats.total;
+
+        const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+        document.getElementById("accuracyPercent").textContent = accuracy + "%";
+
+        document.getElementById("sessionLength").textContent = stats.total;
+        document.getElementById("currentStreak").textContent = stats.currentStreak;
+        document.getElementById("bestStreak").textContent = stats.bestStreak;
+      }
+
+      function updateRecentMistakes() {
+        const container = document.getElementById("recentMistakes");
+
+        if (stats.recentMistakes.length === 0) {
+          container.innerHTML = '<p style="color: #6c757d; font-style: italic; text-align: center;">No mistakes yet - great job!</p>';
+          return;
+        }
+
+        const mistakesHtml = stats.recentMistakes
+          .map(
+            (mistake) => `
+            <div style="background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 3px solid #dc3545;">
+              <strong>${mistake.verb}</strong> (${allTenses[mistake.tense]} - ${persons[mistake.person]})<br>
+              <span style="color: #dc3545;">Your answer: ${mistake.userAnswer}</span><br>
+              <span style="color: #28a745;">Correct: ${mistake.correctAnswer}</span>
+            </div>
+          `
+          )
+          .join("");
+
+        container.innerHTML = mistakesHtml;
+      }
+
+      function resetStats() {
+        stats = {
+          correct: 0,
+          total: 0,
+          currentStreak: 0,
+          bestStreak: 0,
+          recentMistakes: [],
+        };
+
+        updateStatsDisplay();
+        updateRecentMistakes();
+
+        showFeedback("Statistics reset!", "info");
+        setTimeout(hideFeedback, 2000);
+      }
+
+      // ===================================
+      // COMPLETE CONJUGATION TAB FUNCTIONS
+      // ===================================
+
       function getNewCompleteVerb() {
         const availableVerbs = getAvailableVerbs();
         if (availableVerbs.length === 0) {
@@ -547,11 +1403,8 @@
         answersShown = {};
         
         displayCompleteConjugationForm();
-        
-        console.log(`Complete conjugation practice: ${currentCompleteVerb}`);
       }
 
-      // Display the complete conjugation form
       function displayCompleteConjugationForm() {
         const verbData = verbDatabase[currentCompleteVerb];
         const verbDisplay = document.getElementById("completeVerbDisplay");
@@ -578,7 +1431,6 @@
         container.innerHTML = sectionsHtml;
       }
 
-      // Create HTML for a tense section
       function createTenseSection(tense, conjugations) {
         const persons = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
         
@@ -608,15 +1460,11 @@
         });
         html += '</div>';
 
-        html += `
-            </div>
-          </div>
-        `;
+        html += `</div></div>`;
 
         return html;
       }
 
-      // Create HTML for a single conjugation row
       function createConjugationRow(tense, person, correctAnswer) {
         if (!correctAnswer || correctAnswer === '-') {
           return `
@@ -648,7 +1496,6 @@
         `;
       }
 
-      // Toggle answers for a specific tense
       function toggleTenseAnswers(tense) {
         const button = event.target;
         const isShowing = answersShown[tense];
@@ -664,7 +1511,6 @@
         }
       }
 
-      // Show answers for a specific tense
       function showAnswersForTense(tense) {
         const persons = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
         persons.forEach(person => {
@@ -675,7 +1521,6 @@
         });
       }
 
-      // Hide answers for a specific tense
       function hideAnswersForTense(tense) {
         const persons = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
         persons.forEach(person => {
@@ -686,7 +1531,6 @@
         });
       }
 
-      // Check all progress
       function checkAllProgress() {
         const inputs = document.querySelectorAll('.conjugation-input');
         
@@ -708,7 +1552,10 @@
         });
       }
 
-      // Tab switching
+      // ===================================
+      // TAB SWITCHING
+      // ===================================
+
       function setupTabSwitching() {
         document.querySelectorAll(".tab").forEach((tab) => {
           tab.addEventListener("click", () => {
@@ -721,10 +1568,17 @@
         });
       }
 
-      // Initialize
+      // ===================================
+      // INITIALIZATION
+      // ===================================
+
       function initializeApp() {
         setupTabSwitching();
-        console.log("Italian Conjugation Practice app initialized");
+        initializeTenseCheckboxes();
+        updateSettings();
+        updateStatsDisplay();
+        updateRecentMistakes();
+        updateAvailableVerbCount();
       }
 
       if (document.readyState === "loading") {
