@@ -682,20 +682,248 @@
 
         <!-- COMPLETE CONJUGATION TAB -->
         <div class="tab-content" id="complete">
-          <div style="text-align: center; padding: 20px">
-            <h3>Complete Conjugation Practice</h3>
-            <p style="color: #6c757d; margin-bottom: 20px">
+          <div style="padding: 20px">
+            <h3 style="text-align: center">Complete Conjugation Practice</h3>
+            <p style="color: #6c757d; margin-bottom: 20px; text-align: center">
               Fill in all conjugations for a single verb
             </p>
 
-            <div id="completeVerbDisplay" style="margin-bottom: 20px">
-              <div style="font-size: 1.5em; font-weight: 600; color: #495057">
-                Click "New Verb" to start
+            <!-- Verb Selection Mode -->
+            <div
+              style="
+                background: #f8f9fa;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                border: 1px solid #dee2e6;
+              "
+            >
+              <div style="margin-bottom: 15px">
+                <label
+                  style="
+                    font-weight: 600;
+                    color: #495057;
+                    display: block;
+                    margin-bottom: 10px;
+                  "
+                  >Verb Selection Mode:</label
+                >
+                <div style="display: flex; gap: 20px">
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      cursor: pointer;
+                    "
+                  >
+                    <input
+                      type="radio"
+                      name="verbMode"
+                      value="random"
+                      checked
+                      onchange="handleVerbModeChange()"
+                    />
+                    <span>Random Verb</span>
+                  </label>
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      cursor: pointer;
+                    "
+                  >
+                    <input
+                      type="radio"
+                      name="verbMode"
+                      value="specific"
+                      onchange="handleVerbModeChange()"
+                    />
+                    <span>Specific Verb</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Random Verb Controls -->
+              <div id="randomVerbControls" style="display: block">
+                <div
+                  style="
+                    display: flex;
+                    gap: 15px;
+                    margin-bottom: 15px;
+                    flex-wrap: wrap;
+                    align-items: end;
+                  "
+                >
+                  <div style="flex: 1; min-width: 200px">
+                    <label
+                      style="
+                        font-weight: 600;
+                        color: #495057;
+                        display: block;
+                        margin-bottom: 5px;
+                      "
+                      >Difficulty Range:</label
+                    >
+                    <div style="display: flex; align-items: center; gap: 8px">
+                      <select
+                        id="completeVerbLevelStart"
+                        onchange="updateCompleteSettings()"
+                        style="
+                          flex: 1;
+                          padding: 8px 12px;
+                          border: 1px solid #dee2e6;
+                          border-radius: 5px;
+                          font-size: 1em;
+                        "
+                      >
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                      </select>
+                      <span>to</span>
+                      <select
+                        id="completeVerbLevelEnd"
+                        onchange="updateCompleteSettings()"
+                        style="
+                          flex: 1;
+                          padding: 8px 12px;
+                          border: 1px solid #dee2e6;
+                          border-radius: 5px;
+                          font-size: 1em;
+                        "
+                      >
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced" selected>Advanced</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style="flex: 1; min-width: 200px">
+                    <label
+                      style="
+                        font-weight: 600;
+                        color: #495057;
+                        display: block;
+                        margin-bottom: 5px;
+                      "
+                      >Regularity:</label
+                    >
+                    <select
+                      id="completeRegularityFilter"
+                      onchange="updateCompleteSettings()"
+                      style="
+                        width: 100%;
+                        padding: 8px 12px;
+                        border: 1px solid #dee2e6;
+                        border-radius: 5px;
+                        font-size: 1em;
+                      "
+                    >
+                      <option value="all">All Verbs</option>
+                      <option value="regular">Regular Only</option>
+                      <option value="regular_mostly">
+                        Regular + Mostly Regular
+                      </option>
+                      <option value="mostly_regular">
+                        Mostly Regular Only
+                      </option>
+                      <option value="irregular">Irregular Only</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Specific Verb Controls -->
+              <div id="specificVerbControls" style="display: none">
+                <div style="margin-bottom: 15px">
+                  <label
+                    style="
+                      font-weight: 600;
+                      color: #495057;
+                      display: block;
+                      margin-bottom: 5px;
+                    "
+                    >Select Verb:</label
+                  >
+                  <select
+                    id="specificVerbSelect"
+                    style="
+                      width: 100%;
+                      padding: 10px 12px;
+                      border: 1px solid #dee2e6;
+                      border-radius: 5px;
+                      font-size: 1em;
+                    "
+                  >
+                    <option value="">Choose a verb...</option>
+                  </select>
+                </div>
+                <div style="text-align: center">
+                  <button
+                    class="btn"
+                    onclick="loadSelectedVerb()"
+                    id="loadVerbButton"
+                    disabled
+                  >
+                    Load Selected Verb
+                  </button>
+                </div>
+              </div>
+
+              <!-- Tense Selection -->
+              <div
+                style="
+                  margin-top: 20px;
+                  padding-top: 20px;
+                  border-top: 1px solid #dee2e6;
+                "
+              >
+                <label
+                  style="
+                    font-weight: 600;
+                    color: #495057;
+                    margin-bottom: 10px;
+                    display: block;
+                  "
+                  >Select Tenses to Practice:</label
+                >
+                <div class="tense-checkboxes" id="completeTenseCheckboxes">
+                  <!-- Checkboxes will be populated by JavaScript -->
+                </div>
+                <div class="select-buttons">
+                  <button class="btn-small" onclick="selectAllCompleteTenses()">
+                    Select All
+                  </button>
+                  <button
+                    class="btn-small"
+                    onclick="selectBasicCompleteTenses()"
+                  >
+                    Basic Only
+                  </button>
+                  <button class="btn-small" onclick="clearAllCompleteTenses()">
+                    Clear All
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div style="margin-bottom: 20px">
-              <button class="btn" onclick="getNewCompleteVerb()">
+            <div
+              id="completeVerbDisplay"
+              style="margin-bottom: 20px; text-align: center"
+            >
+              <div style="font-size: 1.5em; font-weight: 600; color: #495057">
+                Click "New Verb" or select a specific verb to start
+              </div>
+            </div>
+
+            <div style="margin-bottom: 20px; text-align: center">
+              <button
+                class="btn"
+                onclick="getNewCompleteVerb()"
+                id="newVerbButton"
+              >
                 New Verb
               </button>
               <button class="btn btn-success" onclick="checkAllProgress()">
@@ -1455,7 +1683,6 @@
             },
           },
         },
-
         vendere: {
           translation: "to sell",
           regular: "regular",
@@ -2091,7 +2318,6 @@
             },
           },
         },
-
         guardare: {
           translation: "to look/watch",
           regular: "regular",
@@ -2727,7 +2953,6 @@
             },
           },
         },
-
         tornare: {
           translation: "to return",
           regular: "regular",
@@ -5395,6 +5620,2038 @@
             },
           },
         },
+        abitare: {
+          translation: "to live/reside",
+          regular: "regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "abito",
+              tu: "abiti",
+              lui: "abita",
+              noi: "abitiamo",
+              voi: "abitate",
+              loro: "abitano",
+            },
+            imperfetto: {
+              io: "abitavo",
+              tu: "abitavi",
+              lui: "abitava",
+              noi: "abitavamo",
+              voi: "abitavate",
+              loro: "abitavano",
+            },
+            passato_prossimo: {
+              io: "ho abitato",
+              tu: "hai abitato",
+              lui: "ha abitato",
+              noi: "abbiamo abitato",
+              voi: "avete abitato",
+              loro: "hanno abitato",
+            },
+            passato_remoto: {
+              io: "abitai",
+              tu: "abitasti",
+              lui: "abitò",
+              noi: "abitammo",
+              voi: "abitaste",
+              loro: "abitarono",
+            },
+            trapassato_prossimo: {
+              io: "avevo abitato",
+              tu: "avevi abitato",
+              lui: "aveva abitato",
+              noi: "avevamo abitato",
+              voi: "avevate abitato",
+              loro: "avevano abitato",
+            },
+            trapassato_remoto: {
+              io: "ebbi abitato",
+              tu: "avesti abitato",
+              lui: "ebbe abitato",
+              noi: "avemmo abitato",
+              voi: "aveste abitato",
+              loro: "ebbero abitato",
+            },
+            futuro_semplice: {
+              io: "abiterò",
+              tu: "abiterai",
+              lui: "abiterà",
+              noi: "abiteremo",
+              voi: "abiterete",
+              loro: "abiteranno",
+            },
+            futuro_anteriore: {
+              io: "avrò abitato",
+              tu: "avrai abitato",
+              lui: "avrà abitato",
+              noi: "avremo abitato",
+              voi: "avrete abitato",
+              loro: "avranno abitato",
+            },
+            condizionale_presente: {
+              io: "abiterei",
+              tu: "abiteresti",
+              lui: "abiterebbe",
+              noi: "abiteremmo",
+              voi: "abitereste",
+              loro: "abiterebbero",
+            },
+            condizionale_passato: {
+              io: "avrei abitato",
+              tu: "avresti abitato",
+              lui: "avrebbe abitato",
+              noi: "avremmo abitato",
+              voi: "avreste abitato",
+              loro: "avrebbero abitato",
+            },
+            congiuntivo_presente: {
+              io: "abiti",
+              tu: "abiti",
+              lui: "abiti",
+              noi: "abitiamo",
+              voi: "abitiate",
+              loro: "abitino",
+            },
+            congiuntivo_passato: {
+              io: "abbia abitato",
+              tu: "abbia abitato",
+              lui: "abbia abitato",
+              noi: "abbiamo abitato",
+              voi: "abbiate abitato",
+              loro: "abbiano abitato",
+            },
+            congiuntivo_imperfetto: {
+              io: "abitassi",
+              tu: "abitassi",
+              lui: "abitasse",
+              noi: "abitassimo",
+              voi: "abitaste",
+              loro: "abitassero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi abitato",
+              tu: "avessi abitato",
+              lui: "avesse abitato",
+              noi: "avessimo abitato",
+              voi: "aveste abitato",
+              loro: "avessero abitato",
+            },
+            imperativo_presente: {
+              tu: "abita",
+              lui: "abiti",
+              noi: "abitiamo",
+              voi: "abitate",
+              loro: "abitino",
+            },
+          },
+        },
+        aiutare: {
+          translation: "to help",
+          regular: "regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "aiuto",
+              tu: "aiuti",
+              lui: "aiuta",
+              noi: "aiutiamo",
+              voi: "aiutate",
+              loro: "aiutano",
+            },
+            imperfetto: {
+              io: "aiutavo",
+              tu: "aiutavi",
+              lui: "aiutava",
+              noi: "aiutavamo",
+              voi: "aiutavate",
+              loro: "aiutavano",
+            },
+            passato_prossimo: {
+              io: "ho aiutato",
+              tu: "hai aiutato",
+              lui: "ha aiutato",
+              noi: "abbiamo aiutato",
+              voi: "avete aiutato",
+              loro: "hanno aiutato",
+            },
+            passato_remoto: {
+              io: "aiutai",
+              tu: "aiutasti",
+              lui: "aiutò",
+              noi: "aiutammo",
+              voi: "aiutaste",
+              loro: "aiutarono",
+            },
+            trapassato_prossimo: {
+              io: "avevo aiutato",
+              tu: "avevi aiutato",
+              lui: "aveva aiutato",
+              noi: "avevamo aiutato",
+              voi: "avevate aiutato",
+              loro: "avevano aiutato",
+            },
+            trapassato_remoto: {
+              io: "ebbi aiutato",
+              tu: "avesti aiutato",
+              lui: "ebbe aiutato",
+              noi: "avemmo aiutato",
+              voi: "aveste aiutato",
+              loro: "ebbero aiutato",
+            },
+            futuro_semplice: {
+              io: "aiuterò",
+              tu: "aiuterai",
+              lui: "aiuterà",
+              noi: "aiuteremo",
+              voi: "aiuterete",
+              loro: "aiuteranno",
+            },
+            futuro_anteriore: {
+              io: "avrò aiutato",
+              tu: "avrai aiutato",
+              lui: "avrà aiutato",
+              noi: "avremo aiutato",
+              voi: "avrete aiutato",
+              loro: "avranno aiutato",
+            },
+            condizionale_presente: {
+              io: "aiuterei",
+              tu: "aiuteresti",
+              lui: "aiuterebbe",
+              noi: "aiuteremmo",
+              voi: "aiutereste",
+              loro: "aiuterebbero",
+            },
+            condizionale_passato: {
+              io: "avrei aiutato",
+              tu: "avresti aiutato",
+              lui: "avrebbe aiutato",
+              noi: "avremmo aiutato",
+              voi: "avreste aiutato",
+              loro: "avrebbero aiutato",
+            },
+            congiuntivo_presente: {
+              io: "aiuti",
+              tu: "aiuti",
+              lui: "aiuti",
+              noi: "aiutiamo",
+              voi: "aiutiate",
+              loro: "aiutino",
+            },
+            congiuntivo_passato: {
+              io: "abbia aiutato",
+              tu: "abbia aiutato",
+              lui: "abbia aiutato",
+              noi: "abbiamo aiutato",
+              voi: "abbiate aiutato",
+              loro: "abbiano aiutato",
+            },
+            congiuntivo_imperfetto: {
+              io: "aiutassi",
+              tu: "aiutassi",
+              lui: "aiutasse",
+              noi: "aiutassimo",
+              voi: "aiutaste",
+              loro: "aiutassero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi aiutato",
+              tu: "avessi aiutato",
+              lui: "avesse aiutato",
+              noi: "avessimo aiutato",
+              voi: "aveste aiutato",
+              loro: "avessero aiutato",
+            },
+            imperativo_presente: {
+              tu: "aiuta",
+              lui: "aiuti",
+              noi: "aiutiamo",
+              voi: "aiutate",
+              loro: "aiutino",
+            },
+          },
+        },
+        diventare: {
+          translation: "to become",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "divento",
+              tu: "diventi",
+              lui: "diventa",
+              noi: "diventiamo",
+              voi: "diventate",
+              loro: "diventano",
+            },
+            imperfetto: {
+              io: "diventavo",
+              tu: "diventavi",
+              lui: "diventava",
+              noi: "diventavamo",
+              voi: "diventavate",
+              loro: "diventavano",
+            },
+            passato_prossimo: {
+              io: "sono diventato/a",
+              tu: "sei diventato/a",
+              lui: "è diventato/a",
+              noi: "siamo diventati/e",
+              voi: "siete diventati/e",
+              loro: "sono diventati/e",
+            },
+            passato_remoto: {
+              io: "diventai",
+              tu: "diventasti",
+              lui: "diventò",
+              noi: "diventammo",
+              voi: "diventaste",
+              loro: "diventarono",
+            },
+            trapassato_prossimo: {
+              io: "ero diventato/a",
+              tu: "eri diventato/a",
+              lui: "era diventato/a",
+              noi: "eravamo diventati/e",
+              voi: "eravate diventati/e",
+              loro: "erano diventati/e",
+            },
+            trapassato_remoto: {
+              io: "fui diventato/a",
+              tu: "fosti diventato/a",
+              lui: "fu diventato/a",
+              noi: "fummo diventati/e",
+              voi: "foste diventati/e",
+              loro: "furono diventati/e",
+            },
+            futuro_semplice: {
+              io: "diventerò",
+              tu: "diventerai",
+              lui: "diventerà",
+              noi: "diventeremo",
+              voi: "diventerete",
+              loro: "diventeranno",
+            },
+            futuro_anteriore: {
+              io: "sarò diventato/a",
+              tu: "sarai diventato/a",
+              lui: "sarà diventato/a",
+              noi: "saremo diventati/e",
+              voi: "sarete diventati/e",
+              loro: "saranno diventati/e",
+            },
+            condizionale_presente: {
+              io: "diventerei",
+              tu: "diventeresti",
+              lui: "diventerebbe",
+              noi: "diventeremmo",
+              voi: "diventereste",
+              loro: "diventerebbero",
+            },
+            condizionale_passato: {
+              io: "sarei diventato/a",
+              tu: "saresti diventato/a",
+              lui: "sarebbe diventato/a",
+              noi: "saremmo diventati/e",
+              voi: "sareste diventati/e",
+              loro: "sarebbero diventati/e",
+            },
+            congiuntivo_presente: {
+              io: "diventi",
+              tu: "diventi",
+              lui: "diventi",
+              noi: "diventiamo",
+              voi: "diventiate",
+              loro: "diventino",
+            },
+            congiuntivo_passato: {
+              io: "sia diventato/a",
+              tu: "sia diventato/a",
+              lui: "sia diventato/a",
+              noi: "siamo diventati/e",
+              voi: "siate diventati/e",
+              loro: "siano diventati/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "diventassi",
+              tu: "diventassi",
+              lui: "diventasse",
+              noi: "diventassimo",
+              voi: "diventaste",
+              loro: "diventassero",
+            },
+            congiuntivo_trapassato: {
+              io: "fossi diventato/a",
+              tu: "fossi diventato/a",
+              lui: "fosse diventato/a",
+              noi: "fossimo diventati/e",
+              voi: "foste diventati/e",
+              loro: "fossero diventati/e",
+            },
+            imperativo_presente: {
+              tu: "diventa",
+              lui: "diventi",
+              noi: "diventiamo",
+              voi: "diventate",
+              loro: "diventino",
+            },
+          },
+        },
+        divertirsi: {
+          translation: "to have fun/enjoy oneself",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi diverto",
+              tu: "ti diverti",
+              lui: "si diverte",
+              noi: "ci divertiamo",
+              voi: "vi divertite",
+              loro: "si divertono",
+            },
+            imperfetto: {
+              io: "mi divertivo",
+              tu: "ti divertivi",
+              lui: "si divertiva",
+              noi: "ci divertivamo",
+              voi: "vi divertivate",
+              loro: "si divertivano",
+            },
+            passato_prossimo: {
+              io: "mi sono divertito/a",
+              tu: "ti sei divertito/a",
+              lui: "si è divertito/a",
+              noi: "ci siamo divertiti/e",
+              voi: "vi siete divertiti/e",
+              loro: "si sono divertiti/e",
+            },
+            passato_remoto: {
+              io: "mi divertii",
+              tu: "ti divertisti",
+              lui: "si divertì",
+              noi: "ci divertimmo",
+              voi: "vi divertiste",
+              loro: "si divertirono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero divertito/a",
+              tu: "ti eri divertito/a",
+              lui: "si era divertito/a",
+              noi: "ci eravamo divertiti/e",
+              voi: "vi eravate divertiti/e",
+              loro: "si erano divertiti/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui divertito/a",
+              tu: "ti fosti divertito/a",
+              lui: "si fu divertito/a",
+              noi: "ci fummo divertiti/e",
+              voi: "vi foste divertiti/e",
+              loro: "si furono divertiti/e",
+            },
+            futuro_semplice: {
+              io: "mi divertirò",
+              tu: "ti divertirai",
+              lui: "si divertirà",
+              noi: "ci divertiremo",
+              voi: "vi divertirete",
+              loro: "si divertiranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò divertito/a",
+              tu: "ti sarai divertito/a",
+              lui: "si sarà divertito/a",
+              noi: "ci saremo divertiti/e",
+              voi: "vi sarete divertiti/e",
+              loro: "si saranno divertiti/e",
+            },
+            condizionale_presente: {
+              io: "mi divertirei",
+              tu: "ti divertiresti",
+              lui: "si divertirebbe",
+              noi: "ci divertiremmo",
+              voi: "vi divertireste",
+              loro: "si divertirebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei divertito/a",
+              tu: "ti saresti divertito/a",
+              lui: "si sarebbe divertito/a",
+              noi: "ci saremmo divertiti/e",
+              voi: "vi sareste divertiti/e",
+              loro: "si sarebbero divertiti/e",
+            },
+            congiuntivo_presente: {
+              io: "mi diverta",
+              tu: "ti diverta",
+              lui: "si diverta",
+              noi: "ci divertiamo",
+              voi: "vi divertiate",
+              loro: "si divertano",
+            },
+            congiuntivo_passato: {
+              io: "mi sia divertito/a",
+              tu: "ti sia divertito/a",
+              lui: "si sia divertito/a",
+              noi: "ci siamo divertiti/e",
+              voi: "vi siate divertiti/e",
+              loro: "si siano divertiti/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi divertissi",
+              tu: "ti divertissi",
+              lui: "si divertisse",
+              noi: "ci divertissimo",
+              voi: "vi divertiste",
+              loro: "si divertissero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi divertito/a",
+              tu: "ti fossi divertito/a",
+              lui: "si fosse divertito/a",
+              noi: "ci fossimo divertiti/e",
+              voi: "vi foste divertiti/e",
+              loro: "si fossero divertiti/e",
+            },
+            imperativo_presente: {
+              tu: "divertiti",
+              lui: "si diverta",
+              noi: "divertiamoci",
+              voi: "divertitevi",
+              loro: "si divertano",
+            },
+          },
+        },
+        dormire: {
+          translation: "to sleep",
+          regular: "regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "dormo",
+              tu: "dormi",
+              lui: "dorme",
+              noi: "dormiamo",
+              voi: "dormite",
+              loro: "dormono",
+            },
+            imperfetto: {
+              io: "dormivo",
+              tu: "dormivi",
+              lui: "dormiva",
+              noi: "dormivamo",
+              voi: "dormivate",
+              loro: "dormivano",
+            },
+            passato_prossimo: {
+              io: "ho dormito",
+              tu: "hai dormito",
+              lui: "ha dormito",
+              noi: "abbiamo dormito",
+              voi: "avete dormito",
+              loro: "hanno dormito",
+            },
+            passato_remoto: {
+              io: "dormii",
+              tu: "dormisti",
+              lui: "dormì",
+              noi: "dormimmo",
+              voi: "dormiste",
+              loro: "dormirono",
+            },
+            trapassato_prossimo: {
+              io: "avevo dormito",
+              tu: "avevi dormito",
+              lui: "aveva dormito",
+              noi: "avevamo dormito",
+              voi: "avevate dormito",
+              loro: "avevano dormito",
+            },
+            trapassato_remoto: {
+              io: "ebbi dormito",
+              tu: "avesti dormito",
+              lui: "ebbe dormito",
+              noi: "avemmo dormito",
+              voi: "aveste dormito",
+              loro: "ebbero dormito",
+            },
+            futuro_semplice: {
+              io: "dormirò",
+              tu: "dormirai",
+              lui: "dormirà",
+              noi: "dormiremo",
+              voi: "dormirete",
+              loro: "dormiranno",
+            },
+            futuro_anteriore: {
+              io: "avrò dormito",
+              tu: "avrai dormito",
+              lui: "avrà dormito",
+              noi: "avremo dormito",
+              voi: "avrete dormito",
+              loro: "avranno dormito",
+            },
+            condizionale_presente: {
+              io: "dormirei",
+              tu: "dormiresti",
+              lui: "dormirebbe",
+              noi: "dormiremmo",
+              voi: "dormireste",
+              loro: "dormirebbero",
+            },
+            condizionale_passato: {
+              io: "avrei dormito",
+              tu: "avresti dormito",
+              lui: "avrebbe dormito",
+              noi: "avremmo dormito",
+              voi: "avreste dormito",
+              loro: "avrebbero dormito",
+            },
+            congiuntivo_presente: {
+              io: "dorma",
+              tu: "dorma",
+              lui: "dorma",
+              noi: "dormiamo",
+              voi: "dormiate",
+              loro: "dormano",
+            },
+            congiuntivo_passato: {
+              io: "abbia dormito",
+              tu: "abbia dormito",
+              lui: "abbia dormito",
+              noi: "abbiamo dormito",
+              voi: "abbiate dormito",
+              loro: "abbiano dormito",
+            },
+            congiuntivo_imperfetto: {
+              io: "dormissi",
+              tu: "dormissi",
+              lui: "dormisse",
+              noi: "dormissimo",
+              voi: "dormiste",
+              loro: "dormissero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi dormito",
+              tu: "avessi dormito",
+              lui: "avesse dormito",
+              noi: "avessimo dormito",
+              voi: "aveste dormito",
+              loro: "avessero dormito",
+            },
+            imperativo_presente: {
+              tu: "dormi",
+              lui: "dorma",
+              noi: "dormiamo",
+              voi: "dormite",
+              loro: "dormano",
+            },
+          },
+        },
+        guidare: {
+          translation: "to drive",
+          regular: "regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "guido",
+              tu: "guidi",
+              lui: "guida",
+              noi: "guidiamo",
+              voi: "guidate",
+              loro: "guidano",
+            },
+            imperfetto: {
+              io: "guidavo",
+              tu: "guidavi",
+              lui: "guidava",
+              noi: "guidavamo",
+              voi: "guidavate",
+              loro: "guidavano",
+            },
+            passato_prossimo: {
+              io: "ho guidato",
+              tu: "hai guidato",
+              lui: "ha guidato",
+              noi: "abbiamo guidato",
+              voi: "avete guidato",
+              loro: "hanno guidato",
+            },
+            passato_remoto: {
+              io: "guidai",
+              tu: "guidasti",
+              lui: "guidò",
+              noi: "guidammo",
+              voi: "guidaste",
+              loro: "guidarono",
+            },
+            trapassato_prossimo: {
+              io: "avevo guidato",
+              tu: "avevi guidato",
+              lui: "aveva guidato",
+              noi: "avevamo guidato",
+              voi: "avevate guidato",
+              loro: "avevano guidato",
+            },
+            trapassato_remoto: {
+              io: "ebbi guidato",
+              tu: "avesti guidato",
+              lui: "ebbe guidato",
+              noi: "avemmo guidato",
+              voi: "aveste guidato",
+              loro: "ebbero guidato",
+            },
+            futuro_semplice: {
+              io: "guiderò",
+              tu: "guiderai",
+              lui: "guiderà",
+              noi: "guideremo",
+              voi: "guiderete",
+              loro: "guideranno",
+            },
+            futuro_anteriore: {
+              io: "avrò guidato",
+              tu: "avrai guidato",
+              lui: "avrà guidato",
+              noi: "avremo guidato",
+              voi: "avrete guidato",
+              loro: "avranno guidato",
+            },
+            condizionale_presente: {
+              io: "guiderei",
+              tu: "guideresti",
+              lui: "guiderebbe",
+              noi: "guideremmo",
+              voi: "guidereste",
+              loro: "guiderebbero",
+            },
+            condizionale_passato: {
+              io: "avrei guidato",
+              tu: "avresti guidato",
+              lui: "avrebbe guidato",
+              noi: "avremmo guidato",
+              voi: "avreste guidato",
+              loro: "avrebbero guidato",
+            },
+            congiuntivo_presente: {
+              io: "guidi",
+              tu: "guidi",
+              lui: "guidi",
+              noi: "guidiamo",
+              voi: "guidiate",
+              loro: "guidino",
+            },
+            congiuntivo_passato: {
+              io: "abbia guidato",
+              tu: "abbia guidato",
+              lui: "abbia guidato",
+              noi: "abbiamo guidato",
+              voi: "abbiate guidato",
+              loro: "abbiano guidato",
+            },
+            congiuntivo_imperfetto: {
+              io: "guidassi",
+              tu: "guidassi",
+              lui: "guidasse",
+              noi: "guidassimo",
+              voi: "guidaste",
+              loro: "guidassero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi guidato",
+              tu: "avessi guidato",
+              lui: "avesse guidato",
+              noi: "avessimo guidato",
+              voi: "aveste guidato",
+              loro: "avessero guidato",
+            },
+            imperativo_presente: {
+              tu: "guida",
+              lui: "guidi",
+              noi: "guidiamo",
+              voi: "guidate",
+              loro: "guidino",
+            },
+          },
+        },
+        trovare: {
+          translation: "to find",
+          regular: "regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "trovo",
+              tu: "trovi",
+              lui: "trova",
+              noi: "troviamo",
+              voi: "trovate",
+              loro: "trovano",
+            },
+            imperfetto: {
+              io: "trovavo",
+              tu: "trovavi",
+              lui: "trovava",
+              noi: "trovavamo",
+              voi: "trovavate",
+              loro: "trovavano",
+            },
+            passato_prossimo: {
+              io: "ho trovato",
+              tu: "hai trovato",
+              lui: "ha trovato",
+              noi: "abbiamo trovato",
+              voi: "avete trovato",
+              loro: "hanno trovato",
+            },
+            passato_remoto: {
+              io: "trovai",
+              tu: "trovasti",
+              lui: "trovò",
+              noi: "trovammo",
+              voi: "trovaste",
+              loro: "trovarono",
+            },
+            trapassato_prossimo: {
+              io: "avevo trovato",
+              tu: "avevi trovato",
+              lui: "aveva trovato",
+              noi: "avevamo trovato",
+              voi: "avevate trovato",
+              loro: "avevano trovato",
+            },
+            trapassato_remoto: {
+              io: "ebbi trovato",
+              tu: "avesti trovato",
+              lui: "ebbe trovato",
+              noi: "avemmo trovato",
+              voi: "aveste trovato",
+              loro: "ebbero trovato",
+            },
+            futuro_semplice: {
+              io: "troverò",
+              tu: "troverai",
+              lui: "troverà",
+              noi: "troveremo",
+              voi: "troverete",
+              loro: "troveranno",
+            },
+            futuro_anteriore: {
+              io: "avrò trovato",
+              tu: "avrai trovato",
+              lui: "avrà trovato",
+              noi: "avremo trovato",
+              voi: "avrete trovato",
+              loro: "avranno trovato",
+            },
+            condizionale_presente: {
+              io: "troverei",
+              tu: "troveresti",
+              lui: "troverebbe",
+              noi: "troveremmo",
+              voi: "trovereste",
+              loro: "troverebbero",
+            },
+            condizionale_passato: {
+              io: "avrei trovato",
+              tu: "avresti trovato",
+              lui: "avrebbe trovato",
+              noi: "avremmo trovato",
+              voi: "avreste trovato",
+              loro: "avrebbero trovato",
+            },
+            congiuntivo_presente: {
+              io: "trovi",
+              tu: "trovi",
+              lui: "trovi",
+              noi: "troviamo",
+              voi: "troviate",
+              loro: "trovino",
+            },
+            congiuntivo_passato: {
+              io: "abbia trovato",
+              tu: "abbia trovato",
+              lui: "abbia trovato",
+              noi: "abbiamo trovato",
+              voi: "abbiate trovato",
+              loro: "abbiano trovato",
+            },
+            congiuntivo_imperfetto: {
+              io: "trovassi",
+              tu: "trovassi",
+              lui: "trovasse",
+              noi: "trovassimo",
+              voi: "trovaste",
+              loro: "trovassero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi trovato",
+              tu: "avessi trovato",
+              lui: "avesse trovato",
+              noi: "avessimo trovato",
+              voi: "aveste trovato",
+              loro: "avessero trovato",
+            },
+            imperativo_presente: {
+              tu: "trova",
+              lui: "trovi",
+              noi: "troviamo",
+              voi: "trovate",
+              loro: "trovino",
+            },
+          },
+        },
+        svegliarsi: {
+          translation: "to wake up",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi sveglio",
+              tu: "ti svegli",
+              lui: "si sveglia",
+              noi: "ci svegliamo",
+              voi: "vi svegliate",
+              loro: "si svegliano",
+            },
+            imperfetto: {
+              io: "mi svegliavo",
+              tu: "ti svegliavi",
+              lui: "si svegliava",
+              noi: "ci svegliavamo",
+              voi: "vi svegliavate",
+              loro: "si svegliavano",
+            },
+            passato_prossimo: {
+              io: "mi sono svegliato/a",
+              tu: "ti sei svegliato/a",
+              lui: "si è svegliato/a",
+              noi: "ci siamo svegliati/e",
+              voi: "vi siete svegliati/e",
+              loro: "si sono svegliati/e",
+            },
+            passato_remoto: {
+              io: "mi svegliai",
+              tu: "ti svegliasti",
+              lui: "si svegliò",
+              noi: "ci svegliammo",
+              voi: "vi svegliaste",
+              loro: "si svegliarono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero svegliato/a",
+              tu: "ti eri svegliato/a",
+              lui: "si era svegliato/a",
+              noi: "ci eravamo svegliati/e",
+              voi: "vi eravate svegliati/e",
+              loro: "si erano svegliati/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui svegliato/a",
+              tu: "ti fosti svegliato/a",
+              lui: "si fu svegliato/a",
+              noi: "ci fummo svegliati/e",
+              voi: "vi foste svegliati/e",
+              loro: "si furono svegliati/e",
+            },
+            futuro_semplice: {
+              io: "mi sveglierò",
+              tu: "ti sveglierai",
+              lui: "si sveglierà",
+              noi: "ci sveglieremo",
+              voi: "vi sveglierete",
+              loro: "si sveglieranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò svegliato/a",
+              tu: "ti sarai svegliato/a",
+              lui: "si sarà svegliato/a",
+              noi: "ci saremo svegliati/e",
+              voi: "vi sarete svegliati/e",
+              loro: "si saranno svegliati/e",
+            },
+            condizionale_presente: {
+              io: "mi sveglierei",
+              tu: "ti sveglieresti",
+              lui: "si sveglierebbe",
+              noi: "ci sveglieremmo",
+              voi: "vi svegliereste",
+              loro: "si sveglierebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei svegliato/a",
+              tu: "ti saresti svegliato/a",
+              lui: "si sarebbe svegliato/a",
+              noi: "ci saremmo svegliati/e",
+              voi: "vi sareste svegliati/e",
+              loro: "si sarebbero svegliati/e",
+            },
+            congiuntivo_presente: {
+              io: "mi svegli",
+              tu: "ti svegli",
+              lui: "si svegli",
+              noi: "ci svegliamo",
+              voi: "vi svegliate",
+              loro: "si sveglino",
+            },
+            congiuntivo_passato: {
+              io: "mi sia svegliato/a",
+              tu: "ti sia svegliato/a",
+              lui: "si sia svegliato/a",
+              noi: "ci siamo svegliati/e",
+              voi: "vi siate svegliati/e",
+              loro: "si siano svegliati/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi svegliassi",
+              tu: "ti svegliassi",
+              lui: "si svegliasse",
+              noi: "ci svegliassimo",
+              voi: "vi svegliaste",
+              loro: "si svegliassero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi svegliato/a",
+              tu: "ti fossi svegliato/a",
+              lui: "si fosse svegliato/a",
+              noi: "ci fossimo svegliati/e",
+              voi: "vi foste svegliati/e",
+              loro: "si fossero svegliati/e",
+            },
+            imperativo_presente: {
+              tu: "svegliati",
+              lui: "si svegli",
+              noi: "svegliamoci",
+              voi: "svegliatevi",
+              loro: "si sveglino",
+            },
+          },
+        },
+        alzarsi: {
+          translation: "to get up",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi alzo",
+              tu: "ti alzi",
+              lui: "si alza",
+              noi: "ci alziamo",
+              voi: "vi alzate",
+              loro: "si alzano",
+            },
+            imperfetto: {
+              io: "mi alzavo",
+              tu: "ti alzavi",
+              lui: "si alzava",
+              noi: "ci alzavamo",
+              voi: "vi alzavate",
+              loro: "si alzavano",
+            },
+            passato_prossimo: {
+              io: "mi sono alzato/a",
+              tu: "ti sei alzato/a",
+              lui: "si è alzato/a",
+              noi: "ci siamo alzati/e",
+              voi: "vi siete alzati/e",
+              loro: "si sono alzati/e",
+            },
+            passato_remoto: {
+              io: "mi alzai",
+              tu: "ti alzasti",
+              lui: "si alzò",
+              noi: "ci alzammo",
+              voi: "vi alzaste",
+              loro: "si alzarono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero alzato/a",
+              tu: "ti eri alzato/a",
+              lui: "si era alzato/a",
+              noi: "ci eravamo alzati/e",
+              voi: "vi eravate alzati/e",
+              loro: "si erano alzati/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui alzato/a",
+              tu: "ti fosti alzato/a",
+              lui: "si fu alzato/a",
+              noi: "ci fummo alzati/e",
+              voi: "vi foste alzati/e",
+              loro: "si furono alzati/e",
+            },
+            futuro_semplice: {
+              io: "mi alzerò",
+              tu: "ti alzerai",
+              lui: "si alzerà",
+              noi: "ci alzeremo",
+              voi: "vi alzerete",
+              loro: "si alzeranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò alzato/a",
+              tu: "ti sarai alzato/a",
+              lui: "si sarà alzato/a",
+              noi: "ci saremo alzati/e",
+              voi: "vi sarete alzati/e",
+              loro: "si saranno alzati/e",
+            },
+            condizionale_presente: {
+              io: "mi alzerei",
+              tu: "ti alzeresti",
+              lui: "si alzerebbe",
+              noi: "ci alzeremmo",
+              voi: "vi alzereste",
+              loro: "si alzerebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei alzato/a",
+              tu: "ti saresti alzato/a",
+              lui: "si sarebbe alzato/a",
+              noi: "ci saremmo alzati/e",
+              voi: "vi sareste alzati/e",
+              loro: "si sarebbero alzati/e",
+            },
+            congiuntivo_presente: {
+              io: "mi alzi",
+              tu: "ti alzi",
+              lui: "si alzi",
+              noi: "ci alziamo",
+              voi: "vi alziate",
+              loro: "si alzino",
+            },
+            congiuntivo_passato: {
+              io: "mi sia alzato/a",
+              tu: "ti sia alzato/a",
+              lui: "si sia alzato/a",
+              noi: "ci siamo alzati/e",
+              voi: "vi siate alzati/e",
+              loro: "si siano alzati/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi alzassi",
+              tu: "ti alzassi",
+              lui: "si alzasse",
+              noi: "ci alzassimo",
+              voi: "vi alzaste",
+              loro: "si alzassero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi alzato/a",
+              tu: "ti fossi alzato/a",
+              lui: "si fosse alzato/a",
+              noi: "ci fossimo alzati/e",
+              voi: "vi foste alzati/e",
+              loro: "si fossero alzati/e",
+            },
+            imperativo_presente: {
+              tu: "alzati",
+              lui: "si alzi",
+              noi: "alziamoci",
+              voi: "alzatevi",
+              loro: "si alzino",
+            },
+          },
+        },
+        lavarsi: {
+          translation: "to wash oneself",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi lavo",
+              tu: "ti lavi",
+              lui: "si lava",
+              noi: "ci laviamo",
+              voi: "vi lavate",
+              loro: "si lavano",
+            },
+            imperfetto: {
+              io: "mi lavavo",
+              tu: "ti lavavi",
+              lui: "si lavava",
+              noi: "ci lavavamo",
+              voi: "vi lavavate",
+              loro: "si lavavano",
+            },
+            passato_prossimo: {
+              io: "mi sono lavato/a",
+              tu: "ti sei lavato/a",
+              lui: "si è lavato/a",
+              noi: "ci siamo lavati/e",
+              voi: "vi siete lavati/e",
+              loro: "si sono lavati/e",
+            },
+            passato_remoto: {
+              io: "mi lavai",
+              tu: "ti lavasti",
+              lui: "si lavò",
+              noi: "ci lavammo",
+              voi: "vi lavaste",
+              loro: "si lavarono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero lavato/a",
+              tu: "ti eri lavato/a",
+              lui: "si era lavato/a",
+              noi: "ci eravamo lavati/e",
+              voi: "vi eravate lavati/e",
+              loro: "si erano lavati/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui lavato/a",
+              tu: "ti fosti lavato/a",
+              lui: "si fu lavato/a",
+              noi: "ci fummo lavati/e",
+              voi: "vi foste lavati/e",
+              loro: "si furono lavati/e",
+            },
+            futuro_semplice: {
+              io: "mi laverò",
+              tu: "ti laverai",
+              lui: "si laverà",
+              noi: "ci laveremo",
+              voi: "vi laverete",
+              loro: "si laveranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò lavato/a",
+              tu: "ti sarai lavato/a",
+              lui: "si sarà lavato/a",
+              noi: "ci saremo lavati/e",
+              voi: "vi sarete lavati/e",
+              loro: "si saranno lavati/e",
+            },
+            condizionale_presente: {
+              io: "mi laverei",
+              tu: "ti laveresti",
+              lui: "si laverebbe",
+              noi: "ci laveremmo",
+              voi: "vi lavereste",
+              loro: "si laverebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei lavato/a",
+              tu: "ti saresti lavato/a",
+              lui: "si sarebbe lavato/a",
+              noi: "ci saremmo lavati/e",
+              voi: "vi sareste lavati/e",
+              loro: "si sarebbero lavati/e",
+            },
+            congiuntivo_presente: {
+              io: "mi lavi",
+              tu: "ti lavi",
+              lui: "si lavi",
+              noi: "ci laviamo",
+              voi: "vi laviate",
+              loro: "si lavino",
+            },
+            congiuntivo_passato: {
+              io: "mi sia lavato/a",
+              tu: "ti sia lavato/a",
+              lui: "si sia lavato/a",
+              noi: "ci siamo lavati/e",
+              voi: "vi siate lavati/e",
+              loro: "si siano lavati/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi lavassi",
+              tu: "ti lavassi",
+              lui: "si lavasse",
+              noi: "ci lavassimo",
+              voi: "vi lavaste",
+              loro: "si lavassero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi lavato/a",
+              tu: "ti fossi lavato/a",
+              lui: "si fosse lavato/a",
+              noi: "ci fossimo lavati/e",
+              voi: "vi foste lavati/e",
+              loro: "si fossero lavati/e",
+            },
+            imperativo_presente: {
+              tu: "lavati",
+              lui: "si lavi",
+              noi: "laviamoci",
+              voi: "lavatevi",
+              loro: "si lavino",
+            },
+          },
+        },
+        chiamarsi: {
+          translation: "to be called",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi chiamo",
+              tu: "ti chiami",
+              lui: "si chiama",
+              noi: "ci chiamiamo",
+              voi: "vi chiamate",
+              loro: "si chiamano",
+            },
+            imperfetto: {
+              io: "mi chiamavo",
+              tu: "ti chiamavi",
+              lui: "si chiamava",
+              noi: "ci chiamavamo",
+              voi: "vi chiamavate",
+              loro: "si chiamavano",
+            },
+            passato_prossimo: {
+              io: "mi sono chiamato/a",
+              tu: "ti sei chiamato/a",
+              lui: "si è chiamato/a",
+              noi: "ci siamo chiamati/e",
+              voi: "vi siete chiamati/e",
+              loro: "si sono chiamati/e",
+            },
+            passato_remoto: {
+              io: "mi chiamai",
+              tu: "ti chiamasti",
+              lui: "si chiamò",
+              noi: "ci chiamammo",
+              voi: "vi chiamaste",
+              loro: "si chiamarono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero chiamato/a",
+              tu: "ti eri chiamato/a",
+              lui: "si era chiamato/a",
+              noi: "ci eravamo chiamati/e",
+              voi: "vi eravate chiamati/e",
+              loro: "si erano chiamati/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui chiamato/a",
+              tu: "ti fosti chiamato/a",
+              lui: "si fu chiamato/a",
+              noi: "ci fummo chiamati/e",
+              voi: "vi foste chiamati/e",
+              loro: "si furono chiamati/e",
+            },
+            futuro_semplice: {
+              io: "mi chiamerò",
+              tu: "ti chiamerai",
+              lui: "si chiamerà",
+              noi: "ci chiameremo",
+              voi: "vi chiamerete",
+              loro: "si chiameranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò chiamato/a",
+              tu: "ti sarai chiamato/a",
+              lui: "si sarà chiamato/a",
+              noi: "ci saremo chiamati/e",
+              voi: "vi sarete chiamati/e",
+              loro: "si saranno chiamati/e",
+            },
+            condizionale_presente: {
+              io: "mi chiamerei",
+              tu: "ti chiameresti",
+              lui: "si chiamerebbe",
+              noi: "ci chiameremmo",
+              voi: "vi chiamereste",
+              loro: "si chiamerebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei chiamato/a",
+              tu: "ti saresti chiamato/a",
+              lui: "si sarebbe chiamato/a",
+              noi: "ci saremmo chiamati/e",
+              voi: "vi sareste chiamati/e",
+              loro: "si sarebbero chiamati/e",
+            },
+            congiuntivo_presente: {
+              io: "mi chiami",
+              tu: "ti chiami",
+              lui: "si chiami",
+              noi: "ci chiamiamo",
+              voi: "vi chiamiate",
+              loro: "si chiamino",
+            },
+            congiuntivo_passato: {
+              io: "mi sia chiamato/a",
+              tu: "ti sia chiamato/a",
+              lui: "si sia chiamato/a",
+              noi: "ci siamo chiamati/e",
+              voi: "vi siate chiamati/e",
+              loro: "si siano chiamati/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi chiamassi",
+              tu: "ti chiamassi",
+              lui: "si chiamasse",
+              noi: "ci chiamassimo",
+              voi: "vi chiamaste",
+              loro: "si chiamassero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi chiamato/a",
+              tu: "ti fossi chiamato/a",
+              lui: "si fosse chiamato/a",
+              noi: "ci fossimo chiamati/e",
+              voi: "vi foste chiamati/e",
+              loro: "si fossero chiamati/e",
+            },
+            imperativo_presente: {
+              tu: "chiamati",
+              lui: "si chiami",
+              noi: "chiamiamoci",
+              voi: "chiamatevi",
+              loro: "si chiamino",
+            },
+          },
+        },
+        vestirsi: {
+          translation: "to dress oneself",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi vesto",
+              tu: "ti vesti",
+              lui: "si veste",
+              noi: "ci vestiamo",
+              voi: "vi vestite",
+              loro: "si vestono",
+            },
+            imperfetto: {
+              io: "mi vestivo",
+              tu: "ti vestivi",
+              lui: "si vestiva",
+              noi: "ci vestivamo",
+              voi: "vi vestivate",
+              loro: "si vestivano",
+            },
+            passato_prossimo: {
+              io: "mi sono vestito/a",
+              tu: "ti sei vestito/a",
+              lui: "si è vestito/a",
+              noi: "ci siamo vestiti/e",
+              voi: "vi siete vestiti/e",
+              loro: "si sono vestiti/e",
+            },
+            passato_remoto: {
+              io: "mi vestii",
+              tu: "ti vestisti",
+              lui: "si vestì",
+              noi: "ci vestimmo",
+              voi: "vi vestiste",
+              loro: "si vestirono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero vestito/a",
+              tu: "ti eri vestito/a",
+              lui: "si era vestito/a",
+              noi: "ci eravamo vestiti/e",
+              voi: "vi eravate vestiti/e",
+              loro: "si erano vestiti/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui vestito/a",
+              tu: "ti fosti vestito/a",
+              lui: "si fu vestito/a",
+              noi: "ci fummo vestiti/e",
+              voi: "vi foste vestiti/e",
+              loro: "si furono vestiti/e",
+            },
+            futuro_semplice: {
+              io: "mi vestirò",
+              tu: "ti vestirai",
+              lui: "si vestirà",
+              noi: "ci vestiremo",
+              voi: "vi vestirete",
+              loro: "si vestiranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò vestito/a",
+              tu: "ti sarai vestito/a",
+              lui: "si sarà vestito/a",
+              noi: "ci saremo vestiti/e",
+              voi: "vi sarete vestiti/e",
+              loro: "si saranno vestiti/e",
+            },
+            condizionale_presente: {
+              io: "mi vestirei",
+              tu: "ti vestiresti",
+              lui: "si vestirebbe",
+              noi: "ci vestiremmo",
+              voi: "vi vestireste",
+              loro: "si vestirebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei vestito/a",
+              tu: "ti saresti vestito/a",
+              lui: "si sarebbe vestito/a",
+              noi: "ci saremmo vestiti/e",
+              voi: "vi sareste vestiti/e",
+              loro: "si sarebbero vestiti/e",
+            },
+            congiuntivo_presente: {
+              io: "mi vesta",
+              tu: "ti vesta",
+              lui: "si vesta",
+              noi: "ci vestiamo",
+              voi: "vi vestiate",
+              loro: "si vestano",
+            },
+            congiuntivo_passato: {
+              io: "mi sia vestito/a",
+              tu: "ti sia vestito/a",
+              lui: "si sia vestito/a",
+              noi: "ci siamo vestiti/e",
+              voi: "vi siate vestiti/e",
+              loro: "si siano vestiti/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi vestissi",
+              tu: "ti vestissi",
+              lui: "si vestisse",
+              noi: "ci vestissimo",
+              voi: "vi vestiste",
+              loro: "si vestissero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi vestito/a",
+              tu: "ti fossi vestito/a",
+              lui: "si fosse vestito/a",
+              noi: "ci fossimo vestiti/e",
+              voi: "vi foste vestiti/e",
+              loro: "si fossero vestiti/e",
+            },
+            imperativo_presente: {
+              tu: "vestiti",
+              lui: "si vesta",
+              noi: "vestiamoci",
+              voi: "vestitevi",
+              loro: "si vestano",
+            },
+          },
+        },
+        sedersi: {
+          translation: "to sit down",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi siedo",
+              tu: "ti siedi",
+              lui: "si siede",
+              noi: "ci sediamo",
+              voi: "vi sedete",
+              loro: "si siedono",
+            },
+            imperfetto: {
+              io: "mi sedevo",
+              tu: "ti sedevi",
+              lui: "si sedeva",
+              noi: "ci sedevamo",
+              voi: "vi sedevate",
+              loro: "si sedevano",
+            },
+            passato_prossimo: {
+              io: "mi sono seduto/a",
+              tu: "ti sei seduto/a",
+              lui: "si è seduto/a",
+              noi: "ci siamo seduti/e",
+              voi: "vi siete seduti/e",
+              loro: "si sono seduti/e",
+            },
+            passato_remoto: {
+              io: "mi sedei",
+              tu: "ti sedesti",
+              lui: "si sedé",
+              noi: "ci sedemmo",
+              voi: "vi sedeste",
+              loro: "si sederono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero seduto/a",
+              tu: "ti eri seduto/a",
+              lui: "si era seduto/a",
+              noi: "ci eravamo seduti/e",
+              voi: "vi eravate seduti/e",
+              loro: "si erano seduti/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui seduto/a",
+              tu: "ti fosti seduto/a",
+              lui: "si fu seduto/a",
+              noi: "ci fummo seduti/e",
+              voi: "vi foste seduti/e",
+              loro: "si furono seduti/e",
+            },
+            futuro_semplice: {
+              io: "mi sederò",
+              tu: "ti sederai",
+              lui: "si sederà",
+              noi: "ci sederemo",
+              voi: "vi sederete",
+              loro: "si sederanno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò seduto/a",
+              tu: "ti sarai seduto/a",
+              lui: "si sarà seduto/a",
+              noi: "ci saremo seduti/e",
+              voi: "vi sarete seduti/e",
+              loro: "si saranno seduti/e",
+            },
+            condizionale_presente: {
+              io: "mi sederei",
+              tu: "ti sederesti",
+              lui: "si sederebbe",
+              noi: "ci sederemmo",
+              voi: "vi sedereste",
+              loro: "si sederebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei seduto/a",
+              tu: "ti saresti seduto/a",
+              lui: "si sarebbe seduto/a",
+              noi: "ci saremmo seduti/e",
+              voi: "vi sareste seduti/e",
+              loro: "si sarebbero seduti/e",
+            },
+            congiuntivo_presente: {
+              io: "mi sieda",
+              tu: "ti sieda",
+              lui: "si sieda",
+              noi: "ci sediamo",
+              voi: "vi sediate",
+              loro: "si siedano",
+            },
+            congiuntivo_passato: {
+              io: "mi sia seduto/a",
+              tu: "ti sia seduto/a",
+              lui: "si sia seduto/a",
+              noi: "ci siamo seduti/e",
+              voi: "vi siate seduti/e",
+              loro: "si siano seduti/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi sedessi",
+              tu: "ti sedessi",
+              lui: "si sedesse",
+              noi: "ci sedessimo",
+              voi: "vi sedeste",
+              loro: "si sedessero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi seduto/a",
+              tu: "ti fossi seduto/a",
+              lui: "si fosse seduto/a",
+              noi: "ci fossimo seduti/e",
+              voi: "vi foste seduti/e",
+              loro: "si fossero seduti/e",
+            },
+            imperativo_presente: {
+              tu: "siediti",
+              lui: "si sieda",
+              noi: "sediamoci",
+              voi: "sedetevi",
+              loro: "si siedano",
+            },
+          },
+        },
+        prepararsi: {
+          translation: "to get ready",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi preparo",
+              tu: "ti prepari",
+              lui: "si prepara",
+              noi: "ci prepariamo",
+              voi: "vi preparate",
+              loro: "si preparano",
+            },
+            imperfetto: {
+              io: "mi preparavo",
+              tu: "ti preparavi",
+              lui: "si preparava",
+              noi: "ci preparavamo",
+              voi: "vi preparavate",
+              loro: "si preparavano",
+            },
+            passato_prossimo: {
+              io: "mi sono preparato/a",
+              tu: "ti sei preparato/a",
+              lui: "si è preparato/a",
+              noi: "ci siamo preparati/e",
+              voi: "vi siete preparati/e",
+              loro: "si sono preparati/e",
+            },
+            passato_remoto: {
+              io: "mi preparai",
+              tu: "ti preparasti",
+              lui: "si preparò",
+              noi: "ci preparammo",
+              voi: "vi preparaste",
+              loro: "si prepararono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero preparato/a",
+              tu: "ti eri preparato/a",
+              lui: "si era preparato/a",
+              noi: "ci eravamo preparati/e",
+              voi: "vi eravate preparati/e",
+              loro: "si erano preparati/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui preparato/a",
+              tu: "ti fosti preparato/a",
+              lui: "si fu preparato/a",
+              noi: "ci fummo preparati/e",
+              voi: "vi foste preparati/e",
+              loro: "si furono preparati/e",
+            },
+            futuro_semplice: {
+              io: "mi preparerò",
+              tu: "ti preparerai",
+              lui: "si preparerà",
+              noi: "ci prepareremo",
+              voi: "vi preparerete",
+              loro: "si prepareranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò preparato/a",
+              tu: "ti sarai preparato/a",
+              lui: "si sarà preparato/a",
+              noi: "ci saremo preparati/e",
+              voi: "vi sarete preparati/e",
+              loro: "si saranno preparati/e",
+            },
+            condizionale_presente: {
+              io: "mi preparerei",
+              tu: "ti prepararesti",
+              lui: "si preparerebbe",
+              noi: "ci prepareremmo",
+              voi: "vi preparareste",
+              loro: "si preparerebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei preparato/a",
+              tu: "ti saresti preparato/a",
+              lui: "si sarebbe preparato/a",
+              noi: "ci saremmo preparati/e",
+              voi: "vi sareste preparati/e",
+              loro: "si sarebbero preparati/e",
+            },
+            congiuntivo_presente: {
+              io: "mi prepari",
+              tu: "ti prepari",
+              lui: "si prepari",
+              noi: "ci prepariamo",
+              voi: "vi prepariate",
+              loro: "si preparino",
+            },
+            congiuntivo_passato: {
+              io: "mi sia preparato/a",
+              tu: "ti sia preparato/a",
+              lui: "si sia preparato/a",
+              noi: "ci siamo preparati/e",
+              voi: "vi siate preparati/e",
+              loro: "si siano preparati/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi preparassi",
+              tu: "ti preparassi",
+              lui: "si preparasse",
+              noi: "ci preparassimo",
+              voi: "vi preparaste",
+              loro: "si preparassero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi preparato/a",
+              tu: "ti fossi preparato/a",
+              lui: "si fosse preparato/a",
+              noi: "ci fossimo preparati/e",
+              voi: "vi foste preparati/e",
+              loro: "si fossero preparati/e",
+            },
+            imperativo_presente: {
+              tu: "preparati",
+              lui: "si prepari",
+              noi: "prepariamoci",
+              voi: "preparatevi",
+              loro: "si preparino",
+            },
+          },
+        },
+        sentirsi: {
+          translation: "to feel",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi sento",
+              tu: "ti senti",
+              lui: "si sente",
+              noi: "ci sentiamo",
+              voi: "vi sentite",
+              loro: "si sentono",
+            },
+            imperfetto: {
+              io: "mi sentivo",
+              tu: "ti sentivi",
+              lui: "si sentiva",
+              noi: "ci sentivamo",
+              voi: "vi sentivate",
+              loro: "si sentivano",
+            },
+            passato_prossimo: {
+              io: "mi sono sentito/a",
+              tu: "ti sei sentito/a",
+              lui: "si è sentito/a",
+              noi: "ci siamo sentiti/e",
+              voi: "vi siete sentiti/e",
+              loro: "si sono sentiti/e",
+            },
+            passato_remoto: {
+              io: "mi sentii",
+              tu: "ti sentisti",
+              lui: "si sentì",
+              noi: "ci sentimmo",
+              voi: "vi sentiste",
+              loro: "si sentirono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero sentito/a",
+              tu: "ti eri sentito/a",
+              lui: "si era sentito/a",
+              noi: "ci eravamo sentiti/e",
+              voi: "vi eravate sentiti/e",
+              loro: "si erano sentiti/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui sentito/a",
+              tu: "ti fosti sentito/a",
+              lui: "si fu sentito/a",
+              noi: "ci fummo sentiti/e",
+              voi: "vi foste sentiti/e",
+              loro: "si furono sentiti/e",
+            },
+            futuro_semplice: {
+              io: "mi sentirò",
+              tu: "ti sentirai",
+              lui: "si sentirà",
+              noi: "ci sentiremo",
+              voi: "vi sentirete",
+              loro: "si sentiranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò sentito/a",
+              tu: "ti sarai sentito/a",
+              lui: "si sarà sentito/a",
+              noi: "ci saremo sentiti/e",
+              voi: "vi sarete sentiti/e",
+              loro: "si saranno sentiti/e",
+            },
+            condizionale_presente: {
+              io: "mi sentirei",
+              tu: "ti sentiresti",
+              lui: "si sentirebbe",
+              noi: "ci sentiremmo",
+              voi: "vi sentireste",
+              loro: "si sentirebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei sentito/a",
+              tu: "ti saresti sentito/a",
+              lui: "si sarebbe sentito/a",
+              noi: "ci saremmo sentiti/e",
+              voi: "vi sareste sentiti/e",
+              loro: "si sarebbero sentiti/e",
+            },
+            congiuntivo_presente: {
+              io: "mi senta",
+              tu: "ti senta",
+              lui: "si senta",
+              noi: "ci sentiamo",
+              voi: "vi sentiate",
+              loro: "si sentano",
+            },
+            congiuntivo_passato: {
+              io: "mi sia sentito/a",
+              tu: "ti sia sentito/a",
+              lui: "si sia sentito/a",
+              noi: "ci siamo sentiti/e",
+              voi: "vi siate sentiti/e",
+              loro: "si siano sentiti/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi sentissi",
+              tu: "ti sentissi",
+              lui: "si sentisse",
+              noi: "ci sentissimo",
+              voi: "vi sentiste",
+              loro: "si sentissero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi sentito/a",
+              tu: "ti fossi sentito/a",
+              lui: "si fosse sentito/a",
+              noi: "ci fossimo sentiti/e",
+              voi: "vi foste sentiti/e",
+              loro: "si fossero sentiti/e",
+            },
+            imperativo_presente: {
+              tu: "sentiti",
+              lui: "si senta",
+              noi: "sentiamoci",
+              voi: "sentitevi",
+              loro: "si sentano",
+            },
+          },
+        },
+        lamentarsi: {
+          translation: "to complain",
+          regular: "regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi lamento",
+              tu: "ti lamenti",
+              lui: "si lamenta",
+              noi: "ci lamentiamo",
+              voi: "vi lamentate",
+              loro: "si lamentano",
+            },
+            imperfetto: {
+              io: "mi lamentavo",
+              tu: "ti lamentavi",
+              lui: "si lamentava",
+              noi: "ci lamentavamo",
+              voi: "vi lamentavate",
+              loro: "si lamentavano",
+            },
+            passato_prossimo: {
+              io: "mi sono lamentato/a",
+              tu: "ti sei lamentato/a",
+              lui: "si è lamentato/a",
+              noi: "ci siamo lamentati/e",
+              voi: "vi siete lamentati/e",
+              loro: "si sono lamentati/e",
+            },
+            passato_remoto: {
+              io: "mi lamentai",
+              tu: "ti lamentasti",
+              lui: "si lamentò",
+              noi: "ci lamentammo",
+              voi: "vi lamentaste",
+              loro: "si lamentarono",
+            },
+            trapassato_prossimo: {
+              io: "mi ero lamentato/a",
+              tu: "ti eri lamentato/a",
+              lui: "si era lamentato/a",
+              noi: "ci eravamo lamentati/e",
+              voi: "vi eravate lamentati/e",
+              loro: "si erano lamentati/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui lamentato/a",
+              tu: "ti fosti lamentato/a",
+              lui: "si fu lamentato/a",
+              noi: "ci fummo lamentati/e",
+              voi: "vi foste lamentati/e",
+              loro: "si furono lamentati/e",
+            },
+            futuro_semplice: {
+              io: "mi lamenterò",
+              tu: "ti lamenterai",
+              lui: "si lamenterà",
+              noi: "ci lamenteremo",
+              voi: "vi lamenterete",
+              loro: "si lamenteranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò lamentato/a",
+              tu: "ti sarai lamentato/a",
+              lui: "si sarà lamentato/a",
+              noi: "ci saremo lamentati/e",
+              voi: "vi sarete lamentati/e",
+              loro: "si saranno lamentati/e",
+            },
+            condizionale_presente: {
+              io: "mi lamenterei",
+              tu: "ti lamenteresti",
+              lui: "si lamenterebbe",
+              noi: "ci lamenteremmo",
+              voi: "vi lamentereste",
+              loro: "si lamenterebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei lamentato/a",
+              tu: "ti saresti lamentato/a",
+              lui: "si sarebbe lamentato/a",
+              noi: "ci saremmo lamentati/e",
+              voi: "vi sareste lamentati/e",
+              loro: "si sarebbero lamentati/e",
+            },
+            congiuntivo_presente: {
+              io: "mi lamenti",
+              tu: "ti lamenti",
+              lui: "si lamenti",
+              noi: "ci lamentiamo",
+              voi: "vi lamentiate",
+              loro: "si lamentino",
+            },
+            congiuntivo_passato: {
+              io: "mi sia lamentato/a",
+              tu: "ti sia lamentato/a",
+              lui: "si sia lamentato/a",
+              noi: "ci siamo lamentati/e",
+              voi: "vi siate lamentati/e",
+              loro: "si siano lamentati/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi lamentassi",
+              tu: "ti lamentassi",
+              lui: "si lamentasse",
+              noi: "ci lamentassimo",
+              voi: "vi lamentaste",
+              loro: "si lamentassero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi lamentato/a",
+              tu: "ti fossi lamentato/a",
+              lui: "si fosse lamentato/a",
+              noi: "ci fossimo lamentati/e",
+              voi: "vi foste lamentati/e",
+              loro: "si fossero lamentati/e",
+            },
+            imperativo_presente: {
+              tu: "lamentati",
+              lui: "si lamenti",
+              noi: "lamentiamoci",
+              voi: "lamentatevi",
+              loro: "si lamentino",
+            },
+          },
+        },
 
         // MOSTLY REGULAR VERBS
 
@@ -7938,7 +10195,6 @@
             },
           },
         },
-
         vincere: {
           translation: "to win",
           regular: "mostly_regular",
@@ -8447,7 +10703,6 @@
             },
           },
         },
-
         fornire: {
           translation: "to provide",
           regular: "mostly_regular",
@@ -8702,7 +10957,6 @@
             },
           },
         },
-
         rendere: {
           translation: "to render/make",
           regular: "mostly_regular",
@@ -8954,6 +11208,895 @@
               noi: "sosteniamo",
               voi: "sostenete",
               loro: "sostengano",
+            },
+          },
+        },
+        cadere: {
+          translation: "to fall",
+          regular: "mostly_regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "cado",
+              tu: "cadi",
+              lui: "cade",
+              noi: "cadiamo",
+              voi: "cadete",
+              loro: "cadono",
+            },
+            imperfetto: {
+              io: "cadevo",
+              tu: "cadevi",
+              lui: "cadeva",
+              noi: "cadevamo",
+              voi: "cadevate",
+              loro: "cadevano",
+            },
+            passato_prossimo: {
+              io: "sono caduto/a",
+              tu: "sei caduto/a",
+              lui: "è caduto/a",
+              noi: "siamo caduti/e",
+              voi: "siete caduti/e",
+              loro: "sono caduti/e",
+            },
+            passato_remoto: {
+              io: "caddi",
+              tu: "cadesti",
+              lui: "cadde",
+              noi: "cademmo",
+              voi: "cadeste",
+              loro: "caddero",
+            },
+            trapassato_prossimo: {
+              io: "ero caduto/a",
+              tu: "eri caduto/a",
+              lui: "era caduto/a",
+              noi: "eravamo caduti/e",
+              voi: "eravate caduti/e",
+              loro: "erano caduti/e",
+            },
+            trapassato_remoto: {
+              io: "fui caduto/a",
+              tu: "fosti caduto/a",
+              lui: "fu caduto/a",
+              noi: "fummo caduti/e",
+              voi: "foste caduti/e",
+              loro: "furono caduti/e",
+            },
+            futuro_semplice: {
+              io: "cadrò",
+              tu: "cadrai",
+              lui: "cadrà",
+              noi: "cadremo",
+              voi: "cadrete",
+              loro: "cadranno",
+            },
+            futuro_anteriore: {
+              io: "sarò caduto/a",
+              tu: "sarai caduto/a",
+              lui: "sarà caduto/a",
+              noi: "saremo caduti/e",
+              voi: "sarete caduti/e",
+              loro: "saranno caduti/e",
+            },
+            condizionale_presente: {
+              io: "cadrei",
+              tu: "cadresti",
+              lui: "cadrebbe",
+              noi: "cadremmo",
+              voi: "cadreste",
+              loro: "cadrebbero",
+            },
+            condizionale_passato: {
+              io: "sarei caduto/a",
+              tu: "saresti caduto/a",
+              lui: "sarebbe caduto/a",
+              noi: "saremmo caduti/e",
+              voi: "sareste caduti/e",
+              loro: "sarebbero caduti/e",
+            },
+            congiuntivo_presente: {
+              io: "cada",
+              tu: "cada",
+              lui: "cada",
+              noi: "cadiamo",
+              voi: "cadiate",
+              loro: "cadano",
+            },
+            congiuntivo_passato: {
+              io: "sia caduto/a",
+              tu: "sia caduto/a",
+              lui: "sia caduto/a",
+              noi: "siamo caduti/e",
+              voi: "siate caduti/e",
+              loro: "siano caduti/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "cadessi",
+              tu: "cadessi",
+              lui: "cadesse",
+              noi: "cadessimo",
+              voi: "cadeste",
+              loro: "cadessero",
+            },
+            congiuntivo_trapassato: {
+              io: "fossi caduto/a",
+              tu: "fossi caduto/a",
+              lui: "fosse caduto/a",
+              noi: "fossimo caduti/e",
+              voi: "foste caduti/e",
+              loro: "fossero caduti/e",
+            },
+            imperativo_presente: {
+              tu: "cadi",
+              lui: "cada",
+              noi: "cadiamo",
+              voi: "cadete",
+              loro: "cadano",
+            },
+          },
+        },
+        cercare: {
+          translation: "to search/look for",
+          regular: "mostly_regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "cerco",
+              tu: "cerchi",
+              lui: "cerca",
+              noi: "cerchiamo",
+              voi: "cercate",
+              loro: "cercano",
+            },
+            imperfetto: {
+              io: "cercavo",
+              tu: "cercavi",
+              lui: "cercava",
+              noi: "cercavamo",
+              voi: "cercavate",
+              loro: "cercavano",
+            },
+            passato_prossimo: {
+              io: "ho cercato",
+              tu: "hai cercato",
+              lui: "ha cercato",
+              noi: "abbiamo cercato",
+              voi: "avete cercato",
+              loro: "hanno cercato",
+            },
+            passato_remoto: {
+              io: "cercai",
+              tu: "cercasti",
+              lui: "cercò",
+              noi: "cercammo",
+              voi: "cercaste",
+              loro: "cercarono",
+            },
+            trapassato_prossimo: {
+              io: "avevo cercato",
+              tu: "avevi cercato",
+              lui: "aveva cercato",
+              noi: "avevamo cercato",
+              voi: "avevate cercato",
+              loro: "avevano cercato",
+            },
+            trapassato_remoto: {
+              io: "ebbi cercato",
+              tu: "avesti cercato",
+              lui: "ebbe cercato",
+              noi: "avemmo cercato",
+              voi: "aveste cercato",
+              loro: "ebbero cercato",
+            },
+            futuro_semplice: {
+              io: "cercherò",
+              tu: "cercherai",
+              lui: "cercherà",
+              noi: "cercheremo",
+              voi: "cercherete",
+              loro: "cercheranno",
+            },
+            futuro_anteriore: {
+              io: "avrò cercato",
+              tu: "avrai cercato",
+              lui: "avrà cercato",
+              noi: "avremo cercato",
+              voi: "avrete cercato",
+              loro: "avranno cercato",
+            },
+            condizionale_presente: {
+              io: "cercherei",
+              tu: "cercheresti",
+              lui: "cercherebbe",
+              noi: "cercheremmo",
+              voi: "cerchereste",
+              loro: "cercherebbero",
+            },
+            condizionale_passato: {
+              io: "avrei cercato",
+              tu: "avresti cercato",
+              lui: "avrebbe cercato",
+              noi: "avremmo cercato",
+              voi: "avreste cercato",
+              loro: "avrebbero cercato",
+            },
+            congiuntivo_presente: {
+              io: "cerchi",
+              tu: "cerchi",
+              lui: "cerchi",
+              noi: "cerchiamo",
+              voi: "cerchiate",
+              loro: "cerchino",
+            },
+            congiuntivo_passato: {
+              io: "abbia cercato",
+              tu: "abbia cercato",
+              lui: "abbia cercato",
+              noi: "abbiamo cercato",
+              voi: "abbiate cercato",
+              loro: "abbiano cercato",
+            },
+            congiuntivo_imperfetto: {
+              io: "cercassi",
+              tu: "cercassi",
+              lui: "cercasse",
+              noi: "cercassimo",
+              voi: "cercaste",
+              loro: "cercassero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi cercato",
+              tu: "avessi cercato",
+              lui: "avesse cercato",
+              noi: "avessimo cercato",
+              voi: "aveste cercato",
+              loro: "avessero cercato",
+            },
+            imperativo_presente: {
+              tu: "cerca",
+              lui: "cerchi",
+              noi: "cerchiamo",
+              voi: "cercate",
+              loro: "cerchino",
+            },
+          },
+        },
+        cominciare: {
+          translation: "to begin",
+          regular: "mostly_regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "comincio",
+              tu: "cominci",
+              lui: "comincia",
+              noi: "cominciamo",
+              voi: "cominciate",
+              loro: "cominciano",
+            },
+            imperfetto: {
+              io: "cominciavo",
+              tu: "cominciavi",
+              lui: "cominciava",
+              noi: "cominciavamo",
+              voi: "cominciavate",
+              loro: "cominciavano",
+            },
+            passato_prossimo: {
+              io: "ho cominciato",
+              tu: "hai cominciato",
+              lui: "ha cominciato",
+              noi: "abbiamo cominciato",
+              voi: "avete cominciato",
+              loro: "hanno cominciato",
+            },
+            passato_remoto: {
+              io: "cominciai",
+              tu: "cominciasti",
+              lui: "cominciò",
+              noi: "cominciammo",
+              voi: "cominciaste",
+              loro: "cominciarono",
+            },
+            trapassato_prossimo: {
+              io: "avevo cominciato",
+              tu: "avevi cominciato",
+              lui: "aveva cominciato",
+              noi: "avevamo cominciato",
+              voi: "avevate cominciato",
+              loro: "avevano cominciato",
+            },
+            trapassato_remoto: {
+              io: "ebbi cominciato",
+              tu: "avesti cominciato",
+              lui: "ebbe cominciato",
+              noi: "avemmo cominciato",
+              voi: "aveste cominciato",
+              loro: "ebbero cominciato",
+            },
+            futuro_semplice: {
+              io: "comincerò",
+              tu: "comincerai",
+              lui: "comincerà",
+              noi: "cominceremo",
+              voi: "comincerete",
+              loro: "cominceranno",
+            },
+            futuro_anteriore: {
+              io: "avrò cominciato",
+              tu: "avrai cominciato",
+              lui: "avrà cominciato",
+              noi: "avremo cominciato",
+              voi: "avrete cominciato",
+              loro: "avranno cominciato",
+            },
+            condizionale_presente: {
+              io: "comincerei",
+              tu: "cominceresti",
+              lui: "comincerebbe",
+              noi: "cominceremmo",
+              voi: "comincereste",
+              loro: "comincerebbero",
+            },
+            condizionale_passato: {
+              io: "avrei cominciato",
+              tu: "avresti cominciato",
+              lui: "avrebbe cominciato",
+              noi: "avremmo cominciato",
+              voi: "avreste cominciato",
+              loro: "avrebbero cominciato",
+            },
+            congiuntivo_presente: {
+              io: "cominci",
+              tu: "cominci",
+              lui: "cominci",
+              noi: "cominciamo",
+              voi: "cominciate",
+              loro: "comincino",
+            },
+            congiuntivo_passato: {
+              io: "abbia cominciato",
+              tu: "abbia cominciato",
+              lui: "abbia cominciato",
+              noi: "abbiamo cominciato",
+              voi: "abbiate cominciato",
+              loro: "abbiano cominciato",
+            },
+            congiuntivo_imperfetto: {
+              io: "cominciassi",
+              tu: "cominciassi",
+              lui: "cominciasse",
+              noi: "cominciassimo",
+              voi: "cominciaste",
+              loro: "cominciassero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi cominciato",
+              tu: "avessi cominciato",
+              lui: "avesse cominciato",
+              noi: "avessimo cominciato",
+              voi: "aveste cominciato",
+              loro: "avessero cominciato",
+            },
+            imperativo_presente: {
+              tu: "comincia",
+              lui: "cominci",
+              noi: "cominciamo",
+              voi: "cominciate",
+              loro: "comincino",
+            },
+          },
+        },
+        pagare: {
+          translation: "to pay",
+          regular: "mostly_regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "pago",
+              tu: "paghi",
+              lui: "paga",
+              noi: "paghiamo",
+              voi: "pagate",
+              loro: "pagano",
+            },
+            imperfetto: {
+              io: "pagavo",
+              tu: "pagavi",
+              lui: "pagava",
+              noi: "pagavamo",
+              voi: "pagavate",
+              loro: "pagavano",
+            },
+            passato_prossimo: {
+              io: "ho pagato",
+              tu: "hai pagato",
+              lui: "ha pagato",
+              noi: "abbiamo pagato",
+              voi: "avete pagato",
+              loro: "hanno pagato",
+            },
+            passato_remoto: {
+              io: "pagai",
+              tu: "pagasti",
+              lui: "pagò",
+              noi: "pagammo",
+              voi: "pagaste",
+              loro: "pagarono",
+            },
+            trapassato_prossimo: {
+              io: "avevo pagato",
+              tu: "avevi pagato",
+              lui: "aveva pagato",
+              noi: "avevamo pagato",
+              voi: "avevate pagato",
+              loro: "avevano pagato",
+            },
+            trapassato_remoto: {
+              io: "ebbi pagato",
+              tu: "avesti pagato",
+              lui: "ebbe pagato",
+              noi: "avemmo pagato",
+              voi: "aveste pagato",
+              loro: "ebbero pagato",
+            },
+            futuro_semplice: {
+              io: "pagherò",
+              tu: "pagherai",
+              lui: "pagherà",
+              noi: "pagheremo",
+              voi: "pagherete",
+              loro: "pagheranno",
+            },
+            futuro_anteriore: {
+              io: "avrò pagato",
+              tu: "avrai pagato",
+              lui: "avrà pagato",
+              noi: "avremo pagato",
+              voi: "avrete pagato",
+              loro: "avranno pagato",
+            },
+            condizionale_presente: {
+              io: "pagherei",
+              tu: "pagheresti",
+              lui: "pagherebbe",
+              noi: "pagheremmo",
+              voi: "paghereste",
+              loro: "pagherebbero",
+            },
+            condizionale_passato: {
+              io: "avrei pagato",
+              tu: "avresti pagato",
+              lui: "avrebbe pagato",
+              noi: "avremmo pagato",
+              voi: "avreste pagato",
+              loro: "avrebbero pagato",
+            },
+            congiuntivo_presente: {
+              io: "paghi",
+              tu: "paghi",
+              lui: "paghi",
+              noi: "paghiamo",
+              voi: "paghiate",
+              loro: "paghino",
+            },
+            congiuntivo_passato: {
+              io: "abbia pagato",
+              tu: "abbia pagato",
+              lui: "abbia pagato",
+              noi: "abbiamo pagato",
+              voi: "abbiate pagato",
+              loro: "abbiano pagato",
+            },
+            congiuntivo_imperfetto: {
+              io: "pagassi",
+              tu: "pagassi",
+              lui: "pagasse",
+              noi: "pagassimo",
+              voi: "pagaste",
+              loro: "pagassero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi pagato",
+              tu: "avessi pagato",
+              lui: "avesse pagato",
+              noi: "avessimo pagato",
+              voi: "aveste pagato",
+              loro: "avessero pagato",
+            },
+            imperativo_presente: {
+              tu: "paga",
+              lui: "paghi",
+              noi: "paghiamo",
+              voi: "pagate",
+              loro: "paghino",
+            },
+          },
+        },
+        prendere: {
+          translation: "to take",
+          regular: "mostly_regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "prendo",
+              tu: "prendi",
+              lui: "prende",
+              noi: "prendiamo",
+              voi: "prendete",
+              loro: "prendono",
+            },
+            imperfetto: {
+              io: "prendevo",
+              tu: "prendevi",
+              lui: "prendeva",
+              noi: "prendevamo",
+              voi: "prendevate",
+              loro: "prendevano",
+            },
+            passato_prossimo: {
+              io: "ho preso",
+              tu: "hai preso",
+              lui: "ha preso",
+              noi: "abbiamo preso",
+              voi: "avete preso",
+              loro: "hanno preso",
+            },
+            passato_remoto: {
+              io: "presi",
+              tu: "prendesti",
+              lui: "prese",
+              noi: "prendemmo",
+              voi: "prendeste",
+              loro: "presero",
+            },
+            trapassato_prossimo: {
+              io: "avevo preso",
+              tu: "avevi preso",
+              lui: "aveva preso",
+              noi: "avevamo preso",
+              voi: "avevate preso",
+              loro: "avevano preso",
+            },
+            trapassato_remoto: {
+              io: "ebbi preso",
+              tu: "avesti preso",
+              lui: "ebbe preso",
+              noi: "avemmo preso",
+              voi: "aveste preso",
+              loro: "ebbero preso",
+            },
+            futuro_semplice: {
+              io: "prenderò",
+              tu: "prenderai",
+              lui: "prenderà",
+              noi: "prenderemo",
+              voi: "prenderete",
+              loro: "prenderanno",
+            },
+            futuro_anteriore: {
+              io: "avrò preso",
+              tu: "avrai preso",
+              lui: "avrà preso",
+              noi: "avremo preso",
+              voi: "avrete preso",
+              loro: "avranno preso",
+            },
+            condizionale_presente: {
+              io: "prenderei",
+              tu: "prenderesti",
+              lui: "prenderebbe",
+              noi: "prenderemmo",
+              voi: "prendereste",
+              loro: "prenderebbero",
+            },
+            condizionale_passato: {
+              io: "avrei preso",
+              tu: "avresti preso",
+              lui: "avrebbe preso",
+              noi: "avremmo preso",
+              voi: "avreste preso",
+              loro: "avrebbero preso",
+            },
+            congiuntivo_presente: {
+              io: "prenda",
+              tu: "prenda",
+              lui: "prenda",
+              noi: "prendiamo",
+              voi: "prendiate",
+              loro: "prendano",
+            },
+            congiuntivo_passato: {
+              io: "abbia preso",
+              tu: "abbia preso",
+              lui: "abbia preso",
+              noi: "abbiamo preso",
+              voi: "abbiate preso",
+              loro: "abbiano preso",
+            },
+            congiuntivo_imperfetto: {
+              io: "prendessi",
+              tu: "prendessi",
+              lui: "prendesse",
+              noi: "prendessimo",
+              voi: "prendeste",
+              loro: "prendessero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi preso",
+              tu: "avessi preso",
+              lui: "avesse preso",
+              noi: "avessimo preso",
+              voi: "aveste preso",
+              loro: "avessero preso",
+            },
+            imperativo_presente: {
+              tu: "prendi",
+              lui: "prenda",
+              noi: "prendiamo",
+              voi: "prendete",
+              loro: "prendano",
+            },
+          },
+        },
+        vedere: {
+          translation: "to see",
+          regular: "mostly_regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "vedo",
+              tu: "vedi",
+              lui: "vede",
+              noi: "vediamo",
+              voi: "vedete",
+              loro: "vedono",
+            },
+            imperfetto: {
+              io: "vedevo",
+              tu: "vedevi",
+              lui: "vedeva",
+              noi: "vedevamo",
+              voi: "vedevate",
+              loro: "vedevano",
+            },
+            passato_prossimo: {
+              io: "ho visto",
+              tu: "hai visto",
+              lui: "ha visto",
+              noi: "abbiamo visto",
+              voi: "avete visto",
+              loro: "hanno visto",
+            },
+            passato_remoto: {
+              io: "vidi",
+              tu: "vedesti",
+              lui: "vide",
+              noi: "vedemmo",
+              voi: "vedeste",
+              loro: "videro",
+            },
+            trapassato_prossimo: {
+              io: "avevo visto",
+              tu: "avevi visto",
+              lui: "aveva visto",
+              noi: "avevamo visto",
+              voi: "avevate visto",
+              loro: "avevano visto",
+            },
+            trapassato_remoto: {
+              io: "ebbi visto",
+              tu: "avesti visto",
+              lui: "ebbe visto",
+              noi: "avemmo visto",
+              voi: "aveste visto",
+              loro: "ebbero visto",
+            },
+            futuro_semplice: {
+              io: "vedrò",
+              tu: "vedrai",
+              lui: "vedrà",
+              noi: "vedremo",
+              voi: "vedrete",
+              loro: "vedranno",
+            },
+            futuro_anteriore: {
+              io: "avrò visto",
+              tu: "avrai visto",
+              lui: "avrà visto",
+              noi: "avremo visto",
+              voi: "avrete visto",
+              loro: "avranno visto",
+            },
+            condizionale_presente: {
+              io: "vedrei",
+              tu: "vedresti",
+              lui: "vedrebbe",
+              noi: "vedremmo",
+              voi: "vedreste",
+              loro: "vedrebbero",
+            },
+            condizionale_passato: {
+              io: "avrei visto",
+              tu: "avresti visto",
+              lui: "avrebbe visto",
+              noi: "avremmo visto",
+              voi: "avreste visto",
+              loro: "avrebbero visto",
+            },
+            congiuntivo_presente: {
+              io: "veda",
+              tu: "veda",
+              lui: "veda",
+              noi: "vediamo",
+              voi: "vediate",
+              loro: "vedano",
+            },
+            congiuntivo_passato: {
+              io: "abbia visto",
+              tu: "abbia visto",
+              lui: "abbia visto",
+              noi: "abbiamo visto",
+              voi: "abbiate visto",
+              loro: "abbiano visto",
+            },
+            congiuntivo_imperfetto: {
+              io: "vedessi",
+              tu: "vedessi",
+              lui: "vedesse",
+              noi: "vedessimo",
+              voi: "vedeste",
+              loro: "vedessero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi visto",
+              tu: "avessi visto",
+              lui: "avesse visto",
+              noi: "avessimo visto",
+              voi: "aveste visto",
+              loro: "avessero visto",
+            },
+            imperativo_presente: {
+              tu: "vedi",
+              lui: "veda",
+              noi: "vediamo",
+              voi: "vedete",
+              loro: "vedano",
+            },
+          },
+        },
+        mettersi: {
+          translation: "to put on/start",
+          regular: "mostly_regular",
+          auxiliary: "essere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "mi metto",
+              tu: "ti metti",
+              lui: "si mette",
+              noi: "ci mettiamo",
+              voi: "vi mettete",
+              loro: "si mettono",
+            },
+            imperfetto: {
+              io: "mi mettevo",
+              tu: "ti mettevi",
+              lui: "si metteva",
+              noi: "ci mettevamo",
+              voi: "vi mettevate",
+              loro: "si mettevano",
+            },
+            passato_prossimo: {
+              io: "mi sono messo/a",
+              tu: "ti sei messo/a",
+              lui: "si è messo/a",
+              noi: "ci siamo messi/e",
+              voi: "vi siete messi/e",
+              loro: "si sono messi/e",
+            },
+            passato_remoto: {
+              io: "mi misi",
+              tu: "ti mettesti",
+              lui: "si mise",
+              noi: "ci mettemmo",
+              voi: "vi metteste",
+              loro: "si misero",
+            },
+            trapassato_prossimo: {
+              io: "mi ero messo/a",
+              tu: "ti eri messo/a",
+              lui: "si era messo/a",
+              noi: "ci eravamo messi/e",
+              voi: "vi eravate messi/e",
+              loro: "si erano messi/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui messo/a",
+              tu: "ti fosti messo/a",
+              lui: "si fu messo/a",
+              noi: "ci fummo messi/e",
+              voi: "vi foste messi/e",
+              loro: "si furono messi/e",
+            },
+            futuro_semplice: {
+              io: "mi metterò",
+              tu: "ti metterai",
+              lui: "si metterà",
+              noi: "ci metteremo",
+              voi: "vi metterete",
+              loro: "si metteranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò messo/a",
+              tu: "ti sarai messo/a",
+              lui: "si sarà messo/a",
+              noi: "ci saremo messi/e",
+              voi: "vi sarete messi/e",
+              loro: "si saranno messi/e",
+            },
+            condizionale_presente: {
+              io: "mi metterei",
+              tu: "ti metteresti",
+              lui: "si metterebbe",
+              noi: "ci metteremmo",
+              voi: "vi mettereste",
+              loro: "si metterebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei messo/a",
+              tu: "ti saresti messo/a",
+              lui: "si sarebbe messo/a",
+              noi: "ci saremmo messi/e",
+              voi: "vi sareste messi/e",
+              loro: "si sarebbero messi/e",
+            },
+            congiuntivo_presente: {
+              io: "mi metta",
+              tu: "ti metta",
+              lui: "si metta",
+              noi: "ci mettiamo",
+              voi: "vi mettiate",
+              loro: "si mettano",
+            },
+            congiuntivo_passato: {
+              io: "mi sia messo/a",
+              tu: "ti sia messo/a",
+              lui: "si sia messo/a",
+              noi: "ci siamo messi/e",
+              voi: "vi siate messi/e",
+              loro: "si siano messi/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi mettessi",
+              tu: "ti mettessi",
+              lui: "si mettesse",
+              noi: "ci mettessimo",
+              voi: "vi metteste",
+              loro: "si mettessero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi messo/a",
+              tu: "ti fossi messo/a",
+              lui: "si fosse messo/a",
+              noi: "ci fossimo messi/e",
+              voi: "vi foste messi/e",
+              loro: "si fossero messi/e",
+            },
+            imperativo_presente: {
+              tu: "mettiti",
+              lui: "si metta",
+              noi: "mettiamoci",
+              voi: "mettetevi",
+              loro: "si mettano",
             },
           },
         },
@@ -10991,7 +14134,6 @@
             },
           },
         },
-
         porre: {
           translation: "to put/place",
           regular: "irregular",
@@ -11119,6 +14261,387 @@
             },
           },
         },
+        piacere: {
+          translation: "to please/like",
+          regular: "irregular",
+          auxiliary: "essere",
+          difficulty: "intermediate",
+          conjugations: {
+            presente: {
+              io: "piaccio",
+              tu: "piaci",
+              lui: "piace",
+              noi: "piacciamo",
+              voi: "piacete",
+              loro: "piacciono",
+            },
+            imperfetto: {
+              io: "piacevo",
+              tu: "piacevi",
+              lui: "piaceva",
+              noi: "piacevamo",
+              voi: "piacevate",
+              loro: "piacevano",
+            },
+            passato_prossimo: {
+              io: "sono piaciuto/a",
+              tu: "sei piaciuto/a",
+              lui: "è piaciuto/a",
+              noi: "siamo piaciuti/e",
+              voi: "siete piaciuti/e",
+              loro: "sono piaciuti/e",
+            },
+            passato_remoto: {
+              io: "piacqui",
+              tu: "piacesti",
+              lui: "piacque",
+              noi: "piacemmo",
+              voi: "piaceste",
+              loro: "piacquero",
+            },
+            trapassato_prossimo: {
+              io: "ero piaciuto/a",
+              tu: "eri piaciuto/a",
+              lui: "era piaciuto/a",
+              noi: "eravamo piaciuti/e",
+              voi: "eravate piaciuti/e",
+              loro: "erano piaciuti/e",
+            },
+            trapassato_remoto: {
+              io: "fui piaciuto/a",
+              tu: "fosti piaciuto/a",
+              lui: "fu piaciuto/a",
+              noi: "fummo piaciuti/e",
+              voi: "foste piaciuti/e",
+              loro: "furono piaciuti/e",
+            },
+            futuro_semplice: {
+              io: "piacerò",
+              tu: "piacerai",
+              lui: "piacerà",
+              noi: "piaceremo",
+              voi: "piacerete",
+              loro: "piaceranno",
+            },
+            futuro_anteriore: {
+              io: "sarò piaciuto/a",
+              tu: "sarai piaciuto/a",
+              lui: "sarà piaciuto/a",
+              noi: "saremo piaciuti/e",
+              voi: "sarete piaciuti/e",
+              loro: "saranno piaciuti/e",
+            },
+            condizionale_presente: {
+              io: "piacerei",
+              tu: "piaceresti",
+              lui: "piacerebbe",
+              noi: "piaceremmo",
+              voi: "piacereste",
+              loro: "piacerebbero",
+            },
+            condizionale_passato: {
+              io: "sarei piaciuto/a",
+              tu: "saresti piaciuto/a",
+              lui: "sarebbe piaciuto/a",
+              noi: "saremmo piaciuti/e",
+              voi: "sareste piaciuti/e",
+              loro: "sarebbero piaciuti/e",
+            },
+            congiuntivo_presente: {
+              io: "piaccia",
+              tu: "piaccia",
+              lui: "piaccia",
+              noi: "piacciamo",
+              voi: "piacciate",
+              loro: "piacciano",
+            },
+            congiuntivo_passato: {
+              io: "sia piaciuto/a",
+              tu: "sia piaciuto/a",
+              lui: "sia piaciuto/a",
+              noi: "siamo piaciuti/e",
+              voi: "siate piaciuti/e",
+              loro: "siano piaciuti/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "piacessi",
+              tu: "piacessi",
+              lui: "piacesse",
+              noi: "piacessimo",
+              voi: "piaceste",
+              loro: "piacessero",
+            },
+            congiuntivo_trapassato: {
+              io: "fossi piaciuto/a",
+              tu: "fossi piaciuto/a",
+              lui: "fosse piaciuto/a",
+              noi: "fossimo piaciuti/e",
+              voi: "foste piaciuti/e",
+              loro: "fossero piaciuti/e",
+            },
+            imperativo_presente: {
+              tu: "piaci",
+              lui: "piaccia",
+              noi: "piacciamo",
+              voi: "piacete",
+              loro: "piacciano",
+            },
+          },
+        },
+        sapere: {
+          translation: "to know (facts)",
+          regular: "irregular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "so",
+              tu: "sai",
+              lui: "sa",
+              noi: "sappiamo",
+              voi: "sapete",
+              loro: "sanno",
+            },
+            imperfetto: {
+              io: "sapevo",
+              tu: "sapevi",
+              lui: "sapeva",
+              noi: "sapevamo",
+              voi: "sapevate",
+              loro: "sapevano",
+            },
+            passato_prossimo: {
+              io: "ho saputo",
+              tu: "hai saputo",
+              lui: "ha saputo",
+              noi: "abbiamo saputo",
+              voi: "avete saputo",
+              loro: "hanno saputo",
+            },
+            passato_remoto: {
+              io: "seppi",
+              tu: "sapesti",
+              lui: "seppe",
+              noi: "sapemmo",
+              voi: "sapeste",
+              loro: "seppero",
+            },
+            trapassato_prossimo: {
+              io: "avevo saputo",
+              tu: "avevi saputo",
+              lui: "aveva saputo",
+              noi: "avevamo saputo",
+              voi: "avevate saputo",
+              loro: "avevano saputo",
+            },
+            trapassato_remoto: {
+              io: "ebbi saputo",
+              tu: "avesti saputo",
+              lui: "ebbe saputo",
+              noi: "avemmo saputo",
+              voi: "aveste saputo",
+              loro: "ebbero saputo",
+            },
+            futuro_semplice: {
+              io: "saprò",
+              tu: "saprai",
+              lui: "saprà",
+              noi: "sapremo",
+              voi: "saprete",
+              loro: "sapranno",
+            },
+            futuro_anteriore: {
+              io: "avrò saputo",
+              tu: "avrai saputo",
+              lui: "avrà saputo",
+              noi: "avremo saputo",
+              voi: "avrete saputo",
+              loro: "avranno saputo",
+            },
+            condizionale_presente: {
+              io: "saprei",
+              tu: "sapresti",
+              lui: "saprebbe",
+              noi: "sapremmo",
+              voi: "sapreste",
+              loro: "saprebbero",
+            },
+            condizionale_passato: {
+              io: "avrei saputo",
+              tu: "avresti saputo",
+              lui: "avrebbe saputo",
+              noi: "avremmo saputo",
+              voi: "avreste saputo",
+              loro: "avrebbero saputo",
+            },
+            congiuntivo_presente: {
+              io: "sappia",
+              tu: "sappia",
+              lui: "sappia",
+              noi: "sappiamo",
+              voi: "sappiate",
+              loro: "sappiano",
+            },
+            congiuntivo_passato: {
+              io: "abbia saputo",
+              tu: "abbia saputo",
+              lui: "abbia saputo",
+              noi: "abbiamo saputo",
+              voi: "abbiate saputo",
+              loro: "abbiano saputo",
+            },
+            congiuntivo_imperfetto: {
+              io: "sapessi",
+              tu: "sapessi",
+              lui: "sapesse",
+              noi: "sapessimo",
+              voi: "sapeste",
+              loro: "sapessero",
+            },
+            congiuntivo_trapassato: {
+              io: "avessi saputo",
+              tu: "avessi saputo",
+              lui: "avesse saputo",
+              noi: "avessimo saputo",
+              voi: "aveste saputo",
+              loro: "avessero saputo",
+            },
+            imperativo_presente: {
+              tu: "sappi",
+              lui: "sappia",
+              noi: "sappiamo",
+              voi: "sappiate",
+              loro: "sappiano",
+            },
+          },
+        },
+        accorgersi: {
+          translation: "to notice/realize",
+          regular: "irregular",
+          auxiliary: "essere",
+          difficulty: "intermediate",
+          conjugations: {
+            presente: {
+              io: "mi accorgo",
+              tu: "ti accorgi",
+              lui: "si accorge",
+              noi: "ci accorgiamo",
+              voi: "vi accorgete",
+              loro: "si accorgono",
+            },
+            imperfetto: {
+              io: "mi accorgevo",
+              tu: "ti accorgevi",
+              lui: "si accorgeva",
+              noi: "ci accorgevamo",
+              voi: "vi accorgevate",
+              loro: "si accorgevano",
+            },
+            passato_prossimo: {
+              io: "mi sono accorto/a",
+              tu: "ti sei accorto/a",
+              lui: "si è accorto/a",
+              noi: "ci siamo accorti/e",
+              voi: "vi siete accorti/e",
+              loro: "si sono accorti/e",
+            },
+            passato_remoto: {
+              io: "mi accorsi",
+              tu: "ti accorgesti",
+              lui: "si accorse",
+              noi: "ci accorgemmo",
+              voi: "vi accorgeste",
+              loro: "si accorsero",
+            },
+            trapassato_prossimo: {
+              io: "mi ero accorto/a",
+              tu: "ti eri accorto/a",
+              lui: "si era accorto/a",
+              noi: "ci eravamo accorti/e",
+              voi: "vi eravate accorti/e",
+              loro: "si erano accorti/e",
+            },
+            trapassato_remoto: {
+              io: "mi fui accorto/a",
+              tu: "ti fosti accorto/a",
+              lui: "si fu accorto/a",
+              noi: "ci fummo accorti/e",
+              voi: "vi foste accorti/e",
+              loro: "si furono accorti/e",
+            },
+            futuro_semplice: {
+              io: "mi accorgerò",
+              tu: "ti accorgerai",
+              lui: "si accorgerà",
+              noi: "ci accorgeremo",
+              voi: "vi accorgerete",
+              loro: "si accorgeranno",
+            },
+            futuro_anteriore: {
+              io: "mi sarò accorto/a",
+              tu: "ti sarai accorto/a",
+              lui: "si sarà accorto/a",
+              noi: "ci saremo accorti/e",
+              voi: "vi sarete accorti/e",
+              loro: "si saranno accorti/e",
+            },
+            condizionale_presente: {
+              io: "mi accorgerei",
+              tu: "ti accorgeresti",
+              lui: "si accorgerebbe",
+              noi: "ci accorgeremmo",
+              voi: "vi accorgereste",
+              loro: "si accorgerebbero",
+            },
+            condizionale_passato: {
+              io: "mi sarei accorto/a",
+              tu: "ti saresti accorto/a",
+              lui: "si sarebbe accorto/a",
+              noi: "ci saremmo accorti/e",
+              voi: "vi sareste accorti/e",
+              loro: "si sarebbero accorti/e",
+            },
+            congiuntivo_presente: {
+              io: "mi accorga",
+              tu: "ti accorga",
+              lui: "si accorga",
+              noi: "ci accorgiamo",
+              voi: "vi accorgiate",
+              loro: "si accorgano",
+            },
+            congiuntivo_passato: {
+              io: "mi sia accorto/a",
+              tu: "ti sia accorto/a",
+              lui: "si sia accorto/a",
+              noi: "ci siamo accorti/e",
+              voi: "vi siate accorti/e",
+              loro: "si siano accorti/e",
+            },
+            congiuntivo_imperfetto: {
+              io: "mi accorgessi",
+              tu: "ti accorgessi",
+              lui: "si accorgesse",
+              noi: "ci accorgessimo",
+              voi: "vi accorgeste",
+              loro: "si accorgessero",
+            },
+            congiuntivo_trapassato: {
+              io: "mi fossi accorto/a",
+              tu: "ti fossi accorto/a",
+              lui: "si fosse accorto/a",
+              noi: "ci fossimo accorti/e",
+              voi: "vi foste accorti/e",
+              loro: "si fossero accorti/e",
+            },
+            imperativo_presente: {
+              tu: "accorgiti",
+              lui: "si accorga",
+              noi: "accorgiamoci",
+              voi: "accorgetevi",
+              loro: "si accorgano",
+            },
+          },
+        },
       };
 
       // Available tenses with their display names
@@ -11169,6 +14692,14 @@
       // Complete conjugation state
       let currentCompleteVerb = null;
       let answersShown = {};
+      let completeSettings = {
+        mode: "random",
+        verbLevelStart: "beginner",
+        verbLevelEnd: "advanced",
+        regularityFilter: "all",
+        selectedTenses: [...basicTenses],
+        specificVerb: null,
+      };
 
       // Statistics
       let stats = {
@@ -11767,10 +15298,208 @@
       // COMPLETE CONJUGATION TAB FUNCTIONS
       // ===================================
 
+      function initializeCompleteTenseCheckboxes() {
+        const container = document.getElementById("completeTenseCheckboxes");
+        container.innerHTML = "";
+
+        Object.entries(allTenses).forEach(([tenseKey, tenseName]) => {
+          const checked = completeSettings.selectedTenses.includes(tenseKey)
+            ? "checked"
+            : "";
+          container.innerHTML += `
+            <div class="tense-checkbox">
+              <input type="checkbox" id="complete-tense-${tenseKey}" value="${tenseKey}" ${checked} onchange="updateCompleteSelectedTenses()">
+              <label for="complete-tense-${tenseKey}">${tenseName}</label>
+            </div>
+          `;
+        });
+      }
+
+      function updateCompleteSelectedTenses() {
+        const checkboxes = document.querySelectorAll(
+          '#completeTenseCheckboxes input[type="checkbox"]'
+        );
+        completeSettings.selectedTenses = Array.from(checkboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => cb.value);
+      }
+
+      function selectAllCompleteTenses() {
+        const checkboxes = document.querySelectorAll(
+          '#completeTenseCheckboxes input[type="checkbox"]'
+        );
+        checkboxes.forEach((cb) => (cb.checked = true));
+        updateCompleteSelectedTenses();
+      }
+
+      function selectBasicCompleteTenses() {
+        const checkboxes = document.querySelectorAll(
+          '#completeTenseCheckboxes input[type="checkbox"]'
+        );
+        checkboxes.forEach((cb) => {
+          cb.checked = basicTenses.includes(cb.value);
+        });
+        updateCompleteSelectedTenses();
+      }
+
+      function clearAllCompleteTenses() {
+        const checkboxes = document.querySelectorAll(
+          '#completeTenseCheckboxes input[type="checkbox"]'
+        );
+        checkboxes.forEach((cb) => (cb.checked = false));
+        updateCompleteSelectedTenses();
+      }
+
+      function updateCompleteSettings() {
+        const levelStart = document.getElementById(
+          "completeVerbLevelStart"
+        ).value;
+        const levelEnd = document.getElementById("completeVerbLevelEnd").value;
+        const regularityFilter = document.getElementById(
+          "completeRegularityFilter"
+        ).value;
+
+        const levelOrder = ["beginner", "intermediate", "advanced"];
+        const startIndex = levelOrder.indexOf(levelStart);
+        const endIndex = levelOrder.indexOf(levelEnd);
+
+        if (endIndex < startIndex) {
+          document.getElementById("completeVerbLevelEnd").value = levelStart;
+          completeSettings.verbLevelEnd = levelStart;
+        } else {
+          completeSettings.verbLevelEnd = levelEnd;
+        }
+
+        completeSettings.verbLevelStart = levelStart;
+        completeSettings.regularityFilter = regularityFilter;
+      }
+
+      function getCompleteAvailableVerbs() {
+        const levelOrder = ["beginner", "intermediate", "advanced"];
+        const startIndex = levelOrder.indexOf(completeSettings.verbLevelStart);
+        const endIndex = levelOrder.indexOf(completeSettings.verbLevelEnd);
+        const targetLevels = levelOrder.slice(startIndex, endIndex + 1);
+
+        return Object.keys(verbDatabase).filter((verb) => {
+          const verbData = verbDatabase[verb];
+
+          if (!targetLevels.includes(verbData.difficulty)) {
+            return false;
+          }
+
+          if (completeSettings.regularityFilter === "all") {
+            return true;
+          } else if (completeSettings.regularityFilter === "regular") {
+            return verbData.regular === "regular";
+          } else if (completeSettings.regularityFilter === "regular_mostly") {
+            return (
+              verbData.regular === "regular" ||
+              verbData.regular === "mostly_regular"
+            );
+          } else if (completeSettings.regularityFilter === "mostly_regular") {
+            return verbData.regular === "mostly_regular";
+          } else if (completeSettings.regularityFilter === "irregular") {
+            return verbData.regular === "irregular";
+          }
+
+          return true;
+        });
+      }
+
+      function getCompleteAvailableTenses(verb) {
+        const verbData = verbDatabase[verb];
+        return completeSettings.selectedTenses.filter((tense) => {
+          const conjugation = verbData.conjugations[tense];
+          return (
+            conjugation &&
+            Object.values(conjugation).some((form) => form && form !== "-")
+          );
+        });
+      }
+
+      function populateSpecificVerbSelect() {
+        const select = document.getElementById("specificVerbSelect");
+        select.innerHTML = '<option value="">Choose a verb...</option>';
+
+        const allVerbs = Object.keys(verbDatabase).sort();
+
+        allVerbs.forEach((verb) => {
+          const verbData = verbDatabase[verb];
+          const difficulty =
+            verbData.difficulty.charAt(0).toUpperCase() +
+            verbData.difficulty.slice(1);
+          const regularity =
+            verbData.regular === "regular"
+              ? "Regular"
+              : verbData.regular === "mostly_regular"
+              ? "Mostly Regular"
+              : "Irregular";
+
+          const option = document.createElement("option");
+          option.value = verb;
+          option.textContent = `${verb} (${verbData.translation}) - ${difficulty}, ${regularity}`;
+          select.appendChild(option);
+        });
+
+        select.addEventListener("change", function () {
+          const loadButton = document.getElementById("loadVerbButton");
+          loadButton.disabled = !this.value;
+        });
+      }
+
+      function handleVerbModeChange() {
+        const mode = document.querySelector(
+          'input[name="verbMode"]:checked'
+        ).value;
+        completeSettings.mode = mode;
+
+        const randomControls = document.getElementById("randomVerbControls");
+        const specificControls = document.getElementById(
+          "specificVerbControls"
+        );
+        const newVerbButton = document.getElementById("newVerbButton");
+
+        if (mode === "random") {
+          randomControls.style.display = "block";
+          specificControls.style.display = "none";
+          newVerbButton.style.display = "inline-block";
+        } else {
+          randomControls.style.display = "none";
+          specificControls.style.display = "block";
+          newVerbButton.style.display = "none";
+
+          // Populate the select if not already done
+          if (
+            document.getElementById("specificVerbSelect").options.length <= 1
+          ) {
+            populateSpecificVerbSelect();
+          }
+        }
+      }
+
+      function loadSelectedVerb() {
+        const select = document.getElementById("specificVerbSelect");
+        const selectedVerb = select.value;
+
+        if (!selectedVerb) {
+          return;
+        }
+
+        currentCompleteVerb = selectedVerb;
+        answersShown = {};
+
+        displayCompleteConjugationForm();
+      }
+
       function getNewCompleteVerb() {
-        const availableVerbs = getAvailableVerbs();
+        if (completeSettings.selectedTenses.length === 0) {
+          alert("Please select at least one tense to practice");
+          return;
+        }
+
+        const availableVerbs = getCompleteAvailableVerbs();
         if (availableVerbs.length === 0) {
-          alert("No verbs available");
+          alert("No verbs available for current settings");
           return;
         }
 
@@ -11797,7 +15526,7 @@
           </div>
         `;
 
-        const availableTenses = getAvailableTenses(currentCompleteVerb);
+        const availableTenses = getCompleteAvailableTenses(currentCompleteVerb);
 
         let sectionsHtml = "";
         availableTenses.forEach((tense) => {
@@ -11962,7 +15691,9 @@
       function initializeApp() {
         setupTabSwitching();
         initializeTenseCheckboxes();
+        initializeCompleteTenseCheckboxes();
         updateSettings();
+        updateCompleteSettings();
         updateStatsDisplay();
         updateRecentMistakes();
         updateAvailableVerbCount();
