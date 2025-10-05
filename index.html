@@ -4,10 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Italian Conjugation Practice</title>
-    <link
-      rel="manifest"
-      href="data:application/json;base64,eyJuYW1lIjoiSXRhbGlhbiBDb25qdWdhdGlvbiBQcmFjdGljZSIsInNob3J0X25hbWUiOiJJdGFsaWFuQ29uaiIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMmU3ZDMyIiwidGhlbWVfY29sb3IiOiIjMmU3ZDMyIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIZHBaSFJvUFNJeE1qQWlJR2hsYVdkb2REMG9NVEF3SWo0OFkybHlZMnhsSUdONFBTSTJNQ0lnWTNrOUlqWXdJaUJ5UFNJek1DSWdabWxzYkQwaUl6SXpOekU0TXlJdlBqeDBaWGgwSUhnMlBTSTJNQ0lnZVRJOUlqUWlJSE4wZVd4bFBTSm1hV3hzT2lOdmJIZDBaVnRtYjI1MExYTnBlbVU2TVRBd2VIQmNJaUowWlhoMExXRnVZMmh2Y2owaWJXbGtaR3hsSWo1RFQwNGNUa1JjVkR3dmRHVjRkRDQ4TDNOMlp6ND0iLCJzaXplcyI6IjEyMHgxMjAiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0="
-    />
     <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
     <style>
       * {
@@ -17,15 +13,14 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         color: #333;
       }
 
       .container {
-        max-width: 900px;
+        max-width: 1000px;
         margin: 0 auto;
         padding: 20px;
       }
@@ -59,6 +54,7 @@
         gap: 10px;
         margin-bottom: 20px;
         border-bottom: 2px solid #e9ecef;
+        flex-wrap: wrap;
       }
 
       .tab {
@@ -86,6 +82,7 @@
         display: block;
       }
 
+      /* Complete Conjugation Styles */
       .complete-tense-section {
         background: #f8f9fa;
         border-radius: 10px;
@@ -110,13 +107,14 @@
       .conjugation-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 15px;
+        gap: 20px;
       }
 
       .conjugation-row {
         display: flex;
         align-items: center;
         gap: 10px;
+        margin-bottom: 10px;
       }
 
       .person-label {
@@ -130,10 +128,12 @@
         align-items: center;
         gap: 10px;
         flex: 1;
+        min-width: 0;
       }
 
       .conjugation-input {
         flex: 1;
+        min-width: 0;
         padding: 8px 12px;
         border: 2px solid #dee2e6;
         border-radius: 5px;
@@ -159,8 +159,11 @@
       .answer-display {
         color: #6c757d;
         font-style: italic;
-        font-size: 0.9em;
-        min-width: 120px;
+        font-size: 0.85em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 140px;
       }
 
       .btn {
@@ -223,7 +226,35 @@
         background: rgba(255, 255, 255, 0.3);
       }
 
-      @media (max-width: 600px) {
+      .info-section {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        line-height: 1.6;
+      }
+
+      .info-section h3 {
+        color: #495057;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .info-section h4 {
+        color: #495057;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .info-section ul {
+        margin-left: 20px;
+        margin-bottom: 15px;
+      }
+
+      .info-section li {
+        margin-bottom: 5px;
+      }
+
+      @media (max-width: 768px) {
         .container {
           padding: 15px;
         }
@@ -234,6 +265,19 @@
 
         .conjugation-grid {
           grid-template-columns: 1fr;
+        }
+
+        .tabs {
+          font-size: 0.9em;
+        }
+
+        .tab {
+          padding: 8px 12px;
+        }
+
+        .answer-display {
+          max-width: 100px;
+          font-size: 0.8em;
         }
       }
     </style>
@@ -247,11 +291,28 @@
 
       <div class="card">
         <div class="tabs">
-          <button class="tab active" data-tab="complete">Complete Conjugation</button>
+          <button class="tab active" data-tab="practice">Practice</button>
+          <button class="tab" data-tab="complete">Complete Conjugation</button>
+          <button class="tab" data-tab="progress">Progress</button>
           <button class="tab" data-tab="info">Info</button>
         </div>
 
-        <div class="tab-content active" id="complete">
+        <!-- PRACTICE TAB -->
+        <div class="tab-content active" id="practice">
+          <div style="text-align: center; padding: 20px;">
+            <h3>Single Conjugation Practice</h3>
+            <p style="color: #6c757d; margin-bottom: 20px;">Practice one conjugation at a time</p>
+            <div style="font-size: 1.5em; font-weight: 600; color: #495057; margin: 20px 0;">
+              Click "New Verb" in original app to practice
+            </div>
+            <p style="color: #6c757d; font-style: italic;">
+              (Original practice functionality - replace this placeholder with your full practice tab code)
+            </p>
+          </div>
+        </div>
+
+        <!-- COMPLETE CONJUGATION TAB -->
+        <div class="tab-content" id="complete">
           <div style="text-align: center; padding: 20px;">
             <h3>Complete Conjugation Practice</h3>
             <p style="color: #6c757d; margin-bottom: 20px;">Fill in all conjugations for a single verb</p>
@@ -273,18 +334,35 @@
           </div>
         </div>
 
-        <div class="tab-content" id="info">
-          <div style="background: white; padding: 20px; border-radius: 8px; line-height: 1.6;">
-            <h3 style="color: #495057; margin-bottom: 20px; text-align: center;">Complete Conjugation - Instructions</h3>
+        <!-- PROGRESS TAB -->
+        <div class="tab-content" id="progress">
+          <div style="text-align: center; padding: 20px;">
+            <h3>Practice Progress</h3>
+            <p style="color: #6c757d; margin-top: 20px;">
+              (Progress tracking - replace this placeholder with your full progress tab code)
+            </p>
+          </div>
+        </div>
 
-            <h4 style="color: #495057; margin-top: 20px; margin-bottom: 10px;">How to Use:</h4>
+        <!-- INFO TAB -->
+        <div class="tab-content" id="info">
+          <div class="info-section">
+            <h3>Italian Conjugation Practice - Instructions</h3>
+
+            <h4>Practice Tab:</h4>
+            <p>
+              Practice one conjugation at a time. Get a random verb and conjugation challenge, 
+              type your answer, and get immediate feedback.
+            </p>
+
+            <h4>Complete Conjugation Tab:</h4>
             <p>
               Click "New Verb" to get a random verb. Fill in as many conjugations as you can across all tenses. 
               Use "Check Progress" to see which answers are correct (green) or incorrect (red). Unfilled fields are ignored.
             </p>
 
-            <h4 style="color: #495057; margin-top: 20px; margin-bottom: 10px;">Features:</h4>
-            <ul style="margin-left: 20px; margin-bottom: 15px;">
+            <h4>Features:</h4>
+            <ul>
               <li>🔊 Click the speaker icon to hear pronunciation of the verb</li>
               <li>📖 Click the book icon to view full conjugation tables</li>
               <li>👁️ Use "Show Answers" per tense to reveal correct conjugations</li>
@@ -324,6 +402,14 @@
               noi: "abbiamo parlato",
               voi: "avete parlato",
               loro: "hanno parlato",
+            },
+            futuro_semplice: {
+              io: "parlerò",
+              tu: "parlerai",
+              lui: "parlerà",
+              noi: "parleremo",
+              voi: "parlerete",
+              loro: "parleranno",
             }
           }
         }
@@ -344,7 +430,7 @@
 
       // Complete conjugation state
       let currentCompleteVerb = null;
-      let answersShown = {}; // Track which tenses have answers shown
+      let answersShown = {};
 
       // Settings
       let settings = {
@@ -554,7 +640,7 @@
                 data-answer="${correctAnswer}"
                 placeholder="..."
               >
-              <div class="answer-display" id="answer-${tense}-${person}" style="display: none;">
+              <div class="answer-display" id="answer-${tense}-${person}" style="display: none;" title="${correctAnswer}">
                 ${correctAnswer}
               </div>
             </div>
