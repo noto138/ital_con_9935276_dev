@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Italian Conjugation Practice</title>
+    <link
+      rel="manifest"
+      href="data:application/json;base64,eyJuYW1lIjoiSXRhbGlhbiBDb25qdWdhdGlvbiBQcmFjdGljZSIsInNob3J0X25hbWUiOiJJdGFsaWFuQ29uaiIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMmU3ZDMyIiwidGhlbWVfY29sb3IiOiIjMmU3ZDMyIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIZHBaSFJvUFNJeE1qQWlJR2hsYVdkb2REMG9NVEF3SWo0OFkybHlZMnhsSUdONFBTSTJNQ0lnWTNrOUlqWXdJaUJ5UFNJek1DSWdabWxzYkQwaUl6SXpOekU0TXlJdlBqeDBaWGgwSUhnMlBTSTJNQ0lnZVRJOUlqUWlJSE4wZVd4bFBTSm1hV3hzT2lOdmJIZDBaVnRtYjI1MExYTnBlbVU2TVRBd2VIQmNJaUowWlhoMExXRnVZMmh2Y2owaWJXbGtaR3hsSWo1RFQwNGNUa1JjVkR3dmRHVjRkRDQ4TDNOMlp6ND0iLCJzaXplcyI6IjEyMHgxMjAiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0="
+    />
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        opacity: 0.9;
+        font-size: 1.1em;
+      }
+
+      .card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      .tab {
+        background: none;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        font-size: 1em;
+        color: #6c757d;
+        transition: all 0.3s ease;
+      }
+
+      .tab.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+        font-weight: 600;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .complete-tense-section {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #dee2e6;
+      }
+
+      .complete-tense-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .complete-tense-title {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .conjugation-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .conjugation-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .person-label {
+        font-weight: 600;
+        color: #6c757d;
+        min-width: 40px;
+      }
+
+      .conjugation-input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+      }
+
+      .conjugation-input {
+        flex: 1;
+        padding: 8px 12px;
+        border: 2px solid #dee2e6;
+        border-radius: 5px;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+      }
+
+      .conjugation-input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .conjugation-input.correct {
+        border-color: #28a745;
+        background-color: #d4edda;
+      }
+
+      .conjugation-input.incorrect {
+        border-color: #dc3545;
+        background-color: #f8d7da;
+      }
+
+      .answer-display {
+        color: #6c757d;
+        font-style: italic;
+        font-size: 0.9em;
+        min-width: 120px;
+      }
+
+      .btn {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-success {
+        background: #28a745;
+      }
+
+      .btn-success:hover {
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+      }
+
+      .btn-toggle-answers {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 0.85em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-toggle-answers:hover {
+        background: #5a6268;
+        transform: translateY(-1px);
+      }
+
+      .speaker-icon,
+      .dict-icon {
+        cursor: pointer;
+        margin: 0 8px;
+        font-size: 1.2em;
+        opacity: 0.8;
+        transition: all 0.2s;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        padding: 4px 6px;
+      }
+
+      .speaker-icon:hover,
+      .dict-icon:hover {
+        transform: scale(1.2);
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 15px;
+        }
+
+        .header h1 {
+          font-size: 2em;
+        }
+
+        .conjugation-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🇮🇹 Coniugazioni</h1>
+        <p>Practice Italian verb conjugations</p>
+      </div>
+
+      <div class="card">
+        <div class="tabs">
+          <button class="tab active" data-tab="complete">Complete Conjugation</button>
+          <button class="tab" data-tab="info">Info</button>
+        </div>
+
+        <div class="tab-content active" id="complete">
+          <div style="text-align: center; padding: 20px;">
+            <h3>Complete Conjugation Practice</h3>
+            <p style="color: #6c757d; margin-bottom: 20px;">Fill in all conjugations for a single verb</p>
+            
+            <div id="completeVerbDisplay" style="margin-bottom: 20px;">
+              <div style="font-size: 1.5em; font-weight: 600; color: #495057;">
+                Click "New Verb" to start
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+              <button class="btn" onclick="getNewCompleteVerb()">New Verb</button>
+              <button class="btn btn-success" onclick="checkAllProgress()">Check Progress</button>
+            </div>
+            
+            <div id="completeTensesContainer" style="text-align: left;">
+              <!-- Tense sections will be populated here -->
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="info">
+          <div style="background: white; padding: 20px; border-radius: 8px; line-height: 1.6;">
+            <h3 style="color: #495057; margin-bottom: 20px; text-align: center;">Complete Conjugation - Instructions</h3>
+
+            <h4 style="color: #495057; margin-top: 20px; margin-bottom: 10px;">How to Use:</h4>
+            <p>
+              Click "New Verb" to get a random verb. Fill in as many conjugations as you can across all tenses. 
+              Use "Check Progress" to see which answers are correct (green) or incorrect (red). Unfilled fields are ignored.
+            </p>
+
+            <h4 style="color: #495057; margin-top: 20px; margin-bottom: 10px;">Features:</h4>
+            <ul style="margin-left: 20px; margin-bottom: 15px;">
+              <li>🔊 Click the speaker icon to hear pronunciation of the verb</li>
+              <li>📖 Click the book icon to view full conjugation tables</li>
+              <li>👁️ Use "Show Answers" per tense to reveal correct conjugations</li>
+              <li>✓ "Check Progress" validates your answers without showing solutions</li>
+              <li>You can continue editing and re-check as many times as needed</li>
+            </ul>
+
+            <p style="margin-top: 20px; font-style: italic; color: #6c757d;">
+              Buona pratica! (Good practice!)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // PLACEHOLDER - Replace with your full verb database
+      const verbDatabase = {
+        parlare: {
+          translation: "to speak",
+          regular: "regular",
+          auxiliary: "avere",
+          difficulty: "beginner",
+          conjugations: {
+            presente: {
+              io: "parlo",
+              tu: "parli",
+              lui: "parla",
+              noi: "parliamo",
+              voi: "parlate",
+              loro: "parlano",
+            },
+            passato_prossimo: {
+              io: "ho parlato",
+              tu: "hai parlato",
+              lui: "ha parlato",
+              noi: "abbiamo parlato",
+              voi: "avete parlato",
+              loro: "hanno parlato",
+            }
+          }
+        }
+      };
+
+      // Available tenses with their display names
+      const allTenses = {
+        presente: "Presente",
+        imperfetto: "Imperfetto",
+        passato_prossimo: "Passato Prossimo",
+        passato_remoto: "Passato Remoto",
+        trapassato_prossimo: "Trapassato Prossimo",
+        futuro_semplice: "Futuro Semplice",
+        condizionale_presente: "Condizionale Presente",
+        congiuntivo_presente: "Congiuntivo Presente",
+        imperativo_presente: "Imperativo",
+      };
+
+      // Complete conjugation state
+      let currentCompleteVerb = null;
+      let answersShown = {}; // Track which tenses have answers shown
+
+      // Settings
+      let settings = {
+        verbLevelStart: "beginner",
+        verbLevelEnd: "advanced",
+        selectedTenses: Object.keys(allTenses),
+        regularityFilter: "all",
+      };
+
+      // Pronounce Italian words
+      function pronounceWord(word) {
+        if (typeof responsiveVoice !== "undefined") {
+          responsiveVoice.speak(word, "Italian Male", {
+            rate: 0.95,
+            pitch: 1,
+            volume: 1,
+          });
+        } else {
+          alert("Pronunciation feature is still loading. Please try again in a moment.");
+        }
+      }
+
+      // Open Italian conjugation in new tab
+      function openConjugation(verb) {
+        const conjugationUrl = `https://conjugator.reverso.net/conjugation-italian-verb-${encodeURIComponent(verb)}.html`;
+        window.open(conjugationUrl, "_blank");
+      }
+
+      // Normalize text for comparison
+      function normalizeText(text) {
+        return text
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/['']/g, "'")
+          .trim();
+      }
+
+      // Check if answer is correct with flexible matching
+      function isAnswerCorrect(userAnswer, correctAnswer) {
+        const normalizedUser = normalizeText(userAnswer);
+        const normalizedCorrect = normalizeText(correctAnswer);
+
+        if (normalizedUser === normalizedCorrect) {
+          return true;
+        }
+
+        if (correctAnswer.includes("/")) {
+          const variations = generateGenderNumberVariations(correctAnswer);
+          return variations.some(variation => normalizeText(variation) === normalizedUser);
+        }
+
+        return false;
+      }
+
+      // Generate all valid gender/number variations
+      function generateGenderNumberVariations(correctAnswer) {
+        const variations = [correctAnswer];
+
+        if (correctAnswer.includes("/")) {
+          const words = correctAnswer.split(" ");
+
+          const generateCombinations = (wordArray, currentIndex = 0, currentCombination = []) => {
+            if (currentIndex === wordArray.length) {
+              variations.push(currentCombination.join(" "));
+              return;
+            }
+
+            const word = wordArray[currentIndex];
+            if (word.includes("/")) {
+              const parts = word.split("/");
+              const base = parts[0];
+              const altEnding = parts[1];
+
+              generateCombinations(wordArray, currentIndex + 1, [...currentCombination, base]);
+
+              const baseRoot = base.slice(0, -1);
+              const altForm = baseRoot + altEnding;
+              generateCombinations(wordArray, currentIndex + 1, [...currentCombination, altForm]);
+            } else {
+              generateCombinations(wordArray, currentIndex + 1, [...currentCombination, word]);
+            }
+          };
+
+          generateCombinations(words);
+        }
+
+        return [...new Set(variations)];
+      }
+
+      // Get available verbs based on settings
+      function getAvailableVerbs() {
+        return Object.keys(verbDatabase);
+      }
+
+      // Get available tenses for a verb
+      function getAvailableTenses(verb) {
+        const verbData = verbDatabase[verb];
+        return settings.selectedTenses.filter(tense => {
+          const conjugation = verbData.conjugations[tense];
+          return conjugation && Object.values(conjugation).some(form => form && form !== "-");
+        });
+      }
+
+      // Get new verb for complete conjugation practice
+      function getNewCompleteVerb() {
+        const availableVerbs = getAvailableVerbs();
+        if (availableVerbs.length === 0) {
+          alert("No verbs available");
+          return;
+        }
+
+        currentCompleteVerb = availableVerbs[Math.floor(Math.random() * availableVerbs.length)];
+        answersShown = {};
+        
+        displayCompleteConjugationForm();
+        
+        console.log(`Complete conjugation practice: ${currentCompleteVerb}`);
+      }
+
+      // Display the complete conjugation form
+      function displayCompleteConjugationForm() {
+        const verbData = verbDatabase[currentCompleteVerb];
+        const verbDisplay = document.getElementById("completeVerbDisplay");
+        const container = document.getElementById("completeTensesContainer");
+
+        verbDisplay.innerHTML = `
+          <div style="font-size: 1.8em; font-weight: 600; color: #495057;">
+            ${currentCompleteVerb}
+            <span class="speaker-icon" onclick="pronounceWord('${currentCompleteVerb}')" title="Pronounce verb">🔊</span>
+            <span class="dict-icon" onclick="openConjugation('${currentCompleteVerb}')" title="View full conjugation">📖</span>
+          </div>
+          <div style="font-size: 1.1em; color: #6c757d; margin-top: 10px;">
+            ${verbData.translation}
+          </div>
+        `;
+
+        const availableTenses = getAvailableTenses(currentCompleteVerb);
+        
+        let sectionsHtml = '';
+        availableTenses.forEach(tense => {
+          sectionsHtml += createTenseSection(tense, verbData.conjugations[tense]);
+        });
+
+        container.innerHTML = sectionsHtml;
+      }
+
+      // Create HTML for a tense section
+      function createTenseSection(tense, conjugations) {
+        const persons = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
+        
+        let html = `
+          <div class="complete-tense-section">
+            <div class="complete-tense-header">
+              <div class="complete-tense-title">${allTenses[tense]}</div>
+              <button class="btn-toggle-answers" onclick="toggleTenseAnswers('${tense}')">
+                Show Answers
+              </button>
+            </div>
+            <div class="conjugation-grid">
+        `;
+
+        const leftColumn = persons.slice(0, 3);
+        const rightColumn = persons.slice(3, 6);
+
+        html += '<div>';
+        leftColumn.forEach(person => {
+          html += createConjugationRow(tense, person, conjugations[person]);
+        });
+        html += '</div>';
+
+        html += '<div>';
+        rightColumn.forEach(person => {
+          html += createConjugationRow(tense, person, conjugations[person]);
+        });
+        html += '</div>';
+
+        html += `
+            </div>
+          </div>
+        `;
+
+        return html;
+      }
+
+      // Create HTML for a single conjugation row
+      function createConjugationRow(tense, person, correctAnswer) {
+        if (!correctAnswer || correctAnswer === '-') {
+          return `
+            <div class="conjugation-row">
+              <div class="person-label">${person}:</div>
+              <div style="color: #6c757d; font-style: italic;">—</div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="conjugation-row">
+            <div class="person-label">${person}:</div>
+            <div class="conjugation-input-wrapper">
+              <input 
+                type="text" 
+                class="conjugation-input" 
+                id="input-${tense}-${person}"
+                data-tense="${tense}"
+                data-person="${person}"
+                data-answer="${correctAnswer}"
+                placeholder="..."
+              >
+              <div class="answer-display" id="answer-${tense}-${person}" style="display: none;">
+                ${correctAnswer}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Toggle answers for a specific tense
+      function toggleTenseAnswers(tense) {
+        const button = event.target;
+        const isShowing = answersShown[tense];
+
+        if (isShowing) {
+          hideAnswersForTense(tense);
+          button.textContent = 'Show Answers';
+          answersShown[tense] = false;
+        } else {
+          showAnswersForTense(tense);
+          button.textContent = 'Hide Answers';
+          answersShown[tense] = true;
+        }
+      }
+
+      // Show answers for a specific tense
+      function showAnswersForTense(tense) {
+        const persons = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
+        persons.forEach(person => {
+          const answerDiv = document.getElementById(`answer-${tense}-${person}`);
+          if (answerDiv) {
+            answerDiv.style.display = 'block';
+          }
+        });
+      }
+
+      // Hide answers for a specific tense
+      function hideAnswersForTense(tense) {
+        const persons = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
+        persons.forEach(person => {
+          const answerDiv = document.getElementById(`answer-${tense}-${person}`);
+          if (answerDiv) {
+            answerDiv.style.display = 'none';
+          }
+        });
+      }
+
+      // Check all progress
+      function checkAllProgress() {
+        const inputs = document.querySelectorAll('.conjugation-input');
+        
+        inputs.forEach(input => {
+          const userAnswer = input.value.trim();
+          
+          if (!userAnswer) {
+            input.className = 'conjugation-input';
+            return;
+          }
+
+          const correctAnswer = input.dataset.answer;
+          
+          if (isAnswerCorrect(userAnswer, correctAnswer)) {
+            input.className = 'conjugation-input correct';
+          } else {
+            input.className = 'conjugation-input incorrect';
+          }
+        });
+      }
+
+      // Tab switching
+      function setupTabSwitching() {
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach((content) => content.classList.remove("active"));
+
+            tab.classList.add("active");
+            document.getElementById(tab.dataset.tab).classList.add("active");
+          });
+        });
+      }
+
+      // Initialize
+      function initializeApp() {
+        setupTabSwitching();
+        console.log("Italian Conjugation Practice app initialized");
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeApp);
+      } else {
+        initializeApp();
+      }
+    </script>
+  </body>
+</html>
